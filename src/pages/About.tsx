@@ -1,4 +1,4 @@
-import { ArrowRight, ShieldCheck, FileText, TrendingUp, Award } from 'lucide-react';
+import { ArrowRight, FileText } from 'lucide-react';
 
 interface AboutProps {
   onNavigate: (page: string) => void;

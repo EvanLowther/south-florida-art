@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CheckCircle, DollarSign, Guitar, Info } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 const INSTRUMENT_TYPES = [
   'Violin',
@@ -43,6 +45,7 @@ export default function Donate() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [customAmount, setCustomAmount] = useState('');
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -55,20 +58,86 @@ export default function Donate() {
     setLoading(true);
     setError('');
 
-    const { error: err } = await supabase.from('instrument_inquiries').insert({
-      name: form.name,
-      email: form.email,
-      instrument_type: form.instrument_type,
-      condition_description: form.condition_description,
-    });
+    try {
+      const response = await fetch(
+        `${SUPABASE_URL}/functions/v1/submit-inquiry`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'apikey': SUPABASE_ANON_KEY,
+          },
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            instrument_type: form.instrument_type,
+            condition_description: form.condition_description,
+          }),
+        }
+      );
 
-    setLoading(false);
-    if (err) {
+      const data = await response.json();
+
+      setLoading(false);
+      if (!response.ok) {
+        setError(data.error || 'Something went wrong submitting your inquiry. Please try again.');
+      } else {
+        setSuccess(true);
+      }
+    } catch {
+      setLoading(false);
       setError('Something went wrong submitting your inquiry. Please try again.');
-    } else {
-      setSuccess(true);
     }
   };
+
+  const handleDonation = async (amount: number) => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch(
+        `${SUPABASE_URL}/functions/v1/create-payment-intent`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'apikey': SUPABASE_ANON_KEY,
+          },
+          body: JSON.stringify({
+            amount: amount * 100,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setLoading(false);
+        setError(data.error || 'Payment failed. Please try again.');
+        return;
+      }
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        setError('Payment failed. Please try again.');
+        setLoading(false);
+      }
+    } catch {
+      setError('Payment failed. Please try again.');
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('success') === 'true') {
+      setSuccess(true);
+      window.history.replaceState({}, '', '/donate');
+    }
+  }, []);
 
   const donationAmounts = [25, 50, 100, 250, 500, 1000];
 
@@ -115,7 +184,9 @@ export default function Donate() {
               {donationAmounts.map((amt) => (
                 <button
                   key={amt}
-                  className="py-3 border-2 border-stone-200 text-stone-700 font-semibold rounded-xl hover:border-amber-500 hover:text-amber-600 transition-colors text-sm"
+                  onClick={() => handleDonation(amt)}
+                  disabled={loading}
+                  className="py-3 border-2 border-stone-200 text-stone-700 font-semibold rounded-xl hover:border-amber-500 hover:text-amber-600 transition-colors text-sm disabled:opacity-50"
                 >
                   ${amt}
                 </button>
@@ -132,6 +203,8 @@ export default function Donate() {
                   type="number"
                   min="1"
                   placeholder="Enter amount"
+                  value={customAmount}
+                  onChange={(e) => setCustomAmount(e.target.value)}
                   className="w-full pl-8 pr-4 py-3 border border-stone-200 rounded-xl text-stone-900 focus:outline-none focus:border-amber-500 transition-colors text-sm"
                 />
               </div>
@@ -146,8 +219,19 @@ export default function Donate() {
               </div>
             </div>
 
-            <button className="w-full py-4 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-xl transition-colors text-sm">
-              Proceed to Secure Checkout
+            <button 
+              onClick={() => {
+                const amount = customAmount ? parseInt(customAmount, 10) : null;
+                if (amount && amount > 0) {
+                  handleDonation(amount);
+                } else {
+                  setError('Please select or enter a donation amount');
+                }
+              }}
+              disabled={loading}
+              className="w-full py-4 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-xl transition-colors text-sm disabled:opacity-50"
+            >
+              {loading ? 'Processing...' : 'Proceed to Secure Checkout'}
             </button>
             <p className="text-center text-xs text-stone-400 mt-3">Powered by Stripe · SSL Encrypted</p>
           </div>

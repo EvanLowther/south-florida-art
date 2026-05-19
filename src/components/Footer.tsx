@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Music2, Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
-import { supabase } from '../lib/supabase.ts';
+import { Music2, Mail, Phone, Send, CheckCircle } from 'lucide-react';
+
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 interface FooterProps {
   onNavigate: (page: string) => void;
@@ -18,20 +20,36 @@ export default function Footer({ onNavigate }: FooterProps) {
     setLoading(true);
     setError('');
 
-    const { error: err } = await supabase
-      .from('newsletter_subscriptions')
-      .insert({ email });
+    try {
+      const response = await fetch(
+        `${SUPABASE_URL}/functions/v1/subscribe-newsletter`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'apikey': SUPABASE_ANON_KEY,
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
 
-    setLoading(false);
-    if (err) {
-      if (err.code === '23505') {
-        setError("You're already subscribed.");
+      const data = await response.json();
+
+      setLoading(false);
+      if (!response.ok) {
+        if (response.status === 409) {
+          setError("You're already subscribed.");
+        } else {
+          setError(data.error || 'Something went wrong. Please try again.');
+        }
       } else {
-        setError('Something went wrong. Please try again.');
+        setSuccess(true);
+        setEmail('');
       }
-    } else {
-      setSuccess(true);
-      setEmail('');
+    } catch {
+      setLoading(false);
+      setError('Something went wrong. Please try again.');
     }
   };
 
