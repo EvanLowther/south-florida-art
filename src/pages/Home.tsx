@@ -102,7 +102,7 @@ export default function Home({ onNavigate }: HomeProps) {
                 Music education shouldn't be a luxury reserved for the privileged few.
               </h2>
               <p className="text-stone-600 leading-relaxed mb-8 text-lg">
-                Noteworthy Foundation bridges the funding gap between school music programs and the students who rely on them. We collect, restore, and distribute quality instruments while investing in the infrastructure that keeps music alive in under-resourced classrooms.
+                South Florida Arts Foundation bridges the funding gap between school music programs and the students who rely on them. We collect, restore, and distribute quality instruments while investing in the infrastructure that keeps music alive in under-resourced classrooms.
               </p>
               <button
                 onClick={() => onNavigate('about')}

@@ -63,7 +63,7 @@ export default function About({ onNavigate }: AboutProps) {
             </h2>
             <div className="space-y-5 text-stone-600 leading-relaxed">
               <p>
-                Noteworthy Foundation was founded in 2018 after our co-founders witnessed firsthand how budget cuts were silencing school music programs across Central Texas. Instruments were sitting in closets — too expensive for families to rent — while talented students were being turned away from band, orchestra, and choir.
+                South Florida Arts Foundation was founded in 2018 after our co-founders witnessed firsthand how budget cuts were silencing school music programs across Central Texas. Instruments were sitting in closets — too expensive for families to rent — while talented students were being turned away from band, orchestra, and choir.
               </p>
               <p>
                 We fill the structural gap between instrument availability and student access. Rather than pushing for systemic policy change alone, we take direct action: sourcing instruments, funding their restoration, and placing them in the hands of children who are ready to play.

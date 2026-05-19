@@ -17,9 +17,9 @@ export default function App() {
 
   useEffect(() => {
     const titles: Record<Page, string> = {
-      home: 'Noteworthy Foundation — Music For Every Student',
-      about: 'About Us — Noteworthy Foundation',
-      donate: 'Donate — Noteworthy Foundation',
+      home: 'South Florida Arts Foundation — Music For Every Student',
+      about: 'About Us — South Florida Arts Foundation',
+      donate: 'Donate — South Florida Arts Foundation',
     };
     document.title = titles[page];
   }, [page]);
