@@ -111,14 +111,14 @@ export default function About({ onNavigate }: AboutProps) {
       </section>
 
       {/* Photo break */}
-      <section className="grid md:grid-cols-2 h-72 md:h-96">
+      <section className="grid md:grid-cols-2 min-h-[400px] md:min-h-[600px]">
         <img
-          src="https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg?auto=compress&cs=tinysrgb&w=800"
+          src="https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg?auto=compress&cs=tinysrgb&w=1600"
           alt="Children in music lesson"
           className="w-full h-full object-cover"
         />
         <img
-          src="https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=800"
+          src="https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600"
           alt="Young violinist performing"
           className="w-full h-full object-cover"
         />
