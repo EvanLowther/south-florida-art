@@ -3,9 +3,10 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
+import Events from './pages/Events';
 import Donate from './pages/Donate';
 
-type Page = 'home' | 'about' | 'donate';
+type Page = 'home' | 'about' | 'events' | 'donate';
 
 export default function App() {
   const [page, setPage] = useState<Page>('home');
@@ -19,6 +20,7 @@ export default function App() {
     const titles: Record<Page, string> = {
       home: 'South Florida Arts Foundation — Music For Every Student',
       about: 'About Us — South Florida Arts Foundation',
+      events: 'Events — South Florida Arts Foundation',
       donate: 'Donate — South Florida Arts Foundation',
     };
     document.title = titles[page];
@@ -30,6 +32,7 @@ export default function App() {
       <main className="flex-1">
         {page === 'home' && <Home onNavigate={navigate} />}
         {page === 'about' && <About onNavigate={navigate} />}
+        {page === 'events' && <Events onNavigate={navigate} />}
         {page === 'donate' && <Donate />}
       </main>
       <Footer onNavigate={navigate} />

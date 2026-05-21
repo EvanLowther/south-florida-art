@@ -122,7 +122,7 @@ export default function Footer({ onNavigate }: FooterProps) {
         <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-stone-500">
           <span>© 2026 South Florida Arts Foundation. All rights reserved. 501(c)(3) Non-Profit Organization.</span>
           <div className="flex gap-5">
-            {['home', 'about', 'donate'].map((p) => (
+            {['home', 'about', 'events', 'donate'].map((p) => (
               <button key={p} onClick={() => onNavigate(p)} className="capitalize hover:text-stone-300 transition-colors">
                 {p}
               </button>
