@@ -7,28 +7,36 @@ interface EventsProps {
 export default function Events({ onNavigate }: EventsProps) {
   const events = [
     {
-      title: 'Annual Instrument Drive & Community Concert',
-      date: 'June 15, 2026',
+      title: 'Youth Music Festival 2023/2024',
+      date: '2023–2024 Season',
       image: 'https://images.pexels.com/photos/164936/pexels-photo-164936.jpeg?auto=compress&cs=tinysrgb&w=1200',
       description:
-        "Join us for our signature fundraising event of the year — an afternoon of live performances by student musicians from across South Florida. Browse refurbished instruments, meet our partner educators, and learn how your contribution directly impacts young lives. Light refreshments and a silent auction will follow the concert.",
-      location: 'Mizner Park Amphitheatre, 590 Plaza Real, Boca Raton, FL 33432',
+        'A year-long celebration of young talent featuring student ensembles, solo performances, and collaborative workshops across South Florida. The festival showcased the region\'s brightest emerging musicians and raised funds to support instrument programs in underserved schools.',
+      location: 'Various venues across Miami-Dade and Broward counties',
     },
     {
-      title: 'Strings for Success: Benefit Gala',
-      date: 'September 12, 2026',
+      title: 'Miami Beach Winter Showcase 2025',
+      date: 'January 18, 2025',
       image: 'https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg?auto=compress&cs=tinysrgb&w=1200',
       description:
-        'An elegant evening of orchestral performances, student testimonials, and a seated dinner honoring our most dedicated supporters. Proceeds from the gala will fund string instrument repairs and new instrument purchases for under-resourced school programs in Palm Beach and Broward counties.',
-      location: 'The Boca Raton, 501 E Camino Real, Boca Raton, FL 33432',
+        'An afternoon of winter-themed performances by student musicians from Miami Beach-area schools. The showcase highlighted the impact of our instrument donation program and featured special guest artists from the South Florida music community.',
+      location: 'Miami Beach Bandshell, 7275 Collins Ave, Miami Beach, FL 33141',
     },
     {
-      title: 'Instrument Donation Drop-Off Day',
-      date: 'November 7, 2026',
+      title: 'Miami Beach Spring Arts Showcase 2025',
+      date: 'April 26, 2025',
       image: 'https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1200',
       description:
-        'Clean out your closets and make a difference! Bring gently used band and orchestral instruments to our outdoor drive-thru drop-off event. Our volunteer technicians will provide a quick assessment on-site. Every donated instrument gets a second life in the hands of a deserving student.',
-      location: 'FAU Bok Tower Gardens, 1151 S Rogers Cir, Boca Raton, FL 33487',
+        'A vibrant spring celebration of music, dance, and visual arts featuring students from Miami Beach public schools. Proceeds from the event supported continued arts programming and instrument maintenance for the following academic year.',
+      location: 'Miami Beach Bandshell, 7275 Collins Ave, Miami Beach, FL 33141',
+    },
+    {
+      title: 'FIU Battle of the Bands 2026',
+      date: 'March 28, 2026',
+      image: 'https://images.pexels.com/photos/4145153/pexels-photo-4145153.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      description:
+        'Florida International University\'s annual battle of the bands competition, co-presented by the South Florida Arts Foundation. Student bands compete for studio time, equipment grants, and the chance to perform at our summer concert series.',
+      location: 'FIU Graham Center, 11200 SW 8th St, Miami, FL 33199',
     },
   ];
 
