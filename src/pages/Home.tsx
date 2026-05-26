@@ -135,7 +135,7 @@ export default function Home({ onNavigate }: HomeProps) {
         <img
           src={quoteImage}
           alt="Children in music class"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover object-top"
         />
         <div className="absolute inset-0 bg-stone-900/70" />
         <div className="relative max-w-3xl mx-auto px-6 text-center">
