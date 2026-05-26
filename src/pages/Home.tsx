@@ -1,4 +1,5 @@
 import { ArrowRight, Music, Heart, School } from 'lucide-react';
+import mainHero from '../assets/images/MainHomePage.jpg';
 
 interface HomeProps {
   onNavigate: (page: string) => void;
@@ -35,7 +36,7 @@ export default function Home({ onNavigate }: HomeProps) {
       <section className="relative min-h-screen flex items-center">
         <div className="absolute inset-0 overflow-hidden">
           <img
-            src="https://images.pexels.com/photos/7095517/pexels-photo-7095517.jpeg?auto=compress&cs=tinysrgb&w=1600"
+            src={mainHero}
             alt="Student playing violin"
             className="w-full h-full object-cover object-center"
           />
