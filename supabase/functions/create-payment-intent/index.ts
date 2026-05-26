@@ -16,7 +16,7 @@ function validateAmount(amount: number): { valid: boolean; error?: string } {
   }
   if (amount < 50) {
     return { valid: false, error: 'Minimum donation is $0.50' }
-  }
+  } 
   if (amount > 100000) {
     return { valid: false, error: 'Maximum donation is $1,000' }
   }
