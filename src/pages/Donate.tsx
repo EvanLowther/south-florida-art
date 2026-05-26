@@ -5,6 +5,10 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 const INSTRUMENT_TYPES = [
+  'Electric Guitar',
+  'Acoustic Guitar',
+  'Bass Guitar',
+  'Piano / Keyboard',
   'Violin',
   'Viola',
   'Cello',
@@ -20,11 +24,11 @@ const INSTRUMENT_TYPES = [
   'Trombone',
   'Euphonium / Baritone',
   'Tuba',
+  'Audio Equipment',
+  'Amplifier',
   'Percussion Kit',
   'Snare Drum',
   'Marimba / Xylophone',
-  'Acoustic Guitar',
-  'Piano / Keyboard',
   'Other',
 ];
 
