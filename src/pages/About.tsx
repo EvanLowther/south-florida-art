@@ -136,20 +136,40 @@ export default function About({ onNavigate }: AboutProps) {
           </div>
 
 
-          <div className="bg-stone-50 rounded-2xl border border-stone-200 p-8 flex flex-col md:flex-row items-center gap-8 justify-between">
-            <div>
-              <h3 className="font-bold text-stone-900 text-lg mb-1">Download our 501(c)(3) Documentation</h3>
-              <p className="text-stone-500 text-sm">
-                Full IRS determination letter, audited financials, and program cost breakdown available for institutional review.
-              </p>
+          <div className="bg-stone-50 rounded-2xl border border-stone-200 p-8 space-y-8">
+            <div className="flex flex-col md:flex-row items-center gap-8 justify-between">
+              <div>
+                <h3 className="font-bold text-stone-900 text-lg mb-1">Download our 501(c)(3) Documentation</h3>
+                <p className="text-stone-500 text-sm">
+                  Full IRS determination letter, audited financials, and program cost breakdown available for institutional review.
+                </p>
+              </div>
+              <a
+                href="#"
+                onClick={(e) => e.preventDefault()}
+                className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-stone-900 text-white font-semibold rounded-full hover:bg-stone-800 transition-colors text-sm"
+              >
+                <FileText size={15} /> Download PDF
+              </a>
             </div>
-            <a
-              href="#"
-              onClick={(e) => e.preventDefault()}
-              className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-stone-900 text-white font-semibold rounded-full hover:bg-stone-800 transition-colors text-sm"
-            >
-              <FileText size={15} /> Download PDF
-            </a>
+
+            <hr className="border-stone-200" />
+
+            <div className="flex flex-col md:flex-row items-center gap-8 justify-between">
+              <div>
+                <h3 className="font-bold text-stone-900 text-lg mb-1">Download our R-99 Documentation</h3>
+                <p className="text-stone-500 text-sm">
+                  IRS Form 990 annual returns and financial disclosures providing transparency into our operational and program spending.
+                </p>
+              </div>
+              <a
+                href="#"
+                onClick={(e) => e.preventDefault()}
+                className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-stone-900 text-white font-semibold rounded-full hover:bg-stone-800 transition-colors text-sm"
+              >
+                <FileText size={15} /> Download PDF
+              </a>
+            </div>
           </div>
         </div>
       </section>
