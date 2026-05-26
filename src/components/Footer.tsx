@@ -79,9 +79,9 @@ export default function Footer({ onNavigate }: FooterProps) {
         </div>
 
         <div>
-          <h3 className="text-white font-semibold text-sm uppercase tracking-widest mb-2">Join Our Community</h3>
+          <h3 className="text-white font-semibold text-sm uppercase tracking-widest mb-2">Stay connected with our community.</h3>
           <p className="text-sm text-stone-400 mb-5 leading-relaxed">
-            Receive quarterly updates on our impact, student stories, and upcoming instrument drives.
+            Sign up to receive updates on upcoming events, student showcases, and opportunities to support the arts.
           </p>
 
           {success ? (
