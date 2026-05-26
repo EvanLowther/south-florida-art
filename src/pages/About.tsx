@@ -1,4 +1,6 @@
 import { ArrowRight, FileText } from 'lucide-react';
+import aboutFirst from '../assets/images/AboutPageImagefirsthalf.jpg';
+import aboutSecond from '../assets/images/AboutPageImageSecondhalf.jpg';
 
 interface AboutProps {
   onNavigate: (page: string) => void;
@@ -110,12 +112,12 @@ export default function About({ onNavigate }: AboutProps) {
       {/* Photo break */}
       <section className="grid md:grid-cols-2 min-h-[400px] md:min-h-[600px]">
         <img
-          src="https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          src={aboutFirst}
           alt="Children in music lesson"
           className="w-full h-full object-cover"
         />
         <img
-          src="https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          src={aboutSecond}
           alt="Young violinist performing"
           className="w-full h-full object-cover"
         />
