@@ -298,7 +298,7 @@ export default function Donate() {
                       value={form.email}
                       onChange={handleChange}
                       required
-                      placeholder="jane@email.com"
+                      placeholder="info@sofloartsfoundation.org"
                       className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-500 transition-colors text-sm"
                     />
                   </div>

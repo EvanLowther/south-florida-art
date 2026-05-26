@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Music2, Mail, Phone, Send, CheckCircle } from 'lucide-react';
+import { Music2, Mail, Send, CheckCircle } from 'lucide-react';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -73,11 +73,7 @@ export default function Footer({ onNavigate }: FooterProps) {
           <ul className="space-y-3.5 text-sm">
             <li className="flex items-start gap-3">
               <Mail size={15} className="text-amber-500 mt-0.5 shrink-0" />
-              <span>hello@FOUNDATIONEMAIL.org</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <Phone size={15} className="text-amber-500 mt-0.5 shrink-0" />
-              <span>(555) 555-5555 </span>
+              <span>info@sofloartsfoundation.org</span>
             </li>
           </ul>
         </div>
