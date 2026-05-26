@@ -7,20 +7,12 @@ interface EventsProps {
 export default function Events({ onNavigate }: EventsProps) {
   const events = [
     {
-      title: 'Youth Music Festival 2023/2024',
-      date: '2023–2024 Season',
-      image: 'https://images.pexels.com/photos/164936/pexels-photo-164936.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      title: 'FIU Battle of the Bands 2026',
+      date: 'March 28, 2026',
+      image: 'https://images.pexels.com/photos/4145153/pexels-photo-4145153.jpeg?auto=compress&cs=tinysrgb&w=1200',
       description:
-        'A year-long celebration of young talent featuring student ensembles, solo performances, and collaborative workshops across South Florida. The festival showcased the region\'s brightest emerging musicians and raised funds to support instrument programs in underserved schools.',
-      location: 'Various venues across Miami-Dade and Broward counties',
-    },
-    {
-      title: 'Miami Beach Winter Showcase 2025',
-      date: 'January 18, 2025',
-      image: 'https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg?auto=compress&cs=tinysrgb&w=1200',
-      description:
-        'An afternoon of winter-themed performances by student musicians from Miami Beach-area schools. The showcase highlighted the impact of our instrument donation program and featured special guest artists from the South Florida music community.',
-      location: 'Miami Beach Bandshell, 7275 Collins Ave, Miami Beach, FL 33141',
+        'Florida International University\'s annual battle of the bands competition, co-presented by the South Florida Arts Foundation. Student bands compete for studio time, equipment grants, and the chance to perform at our summer concert series.',
+      location: 'Parkview Turf, 11200 SW 8th St, Miami, FL 33199',
     },
     {
       title: 'Miami Beach Spring Arts Showcase 2025',
@@ -28,15 +20,23 @@ export default function Events({ onNavigate }: EventsProps) {
       image: 'https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1200',
       description:
         'A vibrant spring celebration of music, dance, and visual arts featuring students from Miami Beach public schools. Proceeds from the event supported continued arts programming and instrument maintenance for the following academic year.',
-      location: 'Miami Beach Bandshell, 7275 Collins Ave, Miami Beach, FL 33141',
+      location: '660 Lincoln Rd, Miami Beach, FL 33139',
     },
     {
-      title: 'FIU Battle of the Bands 2026',
-      date: 'March 28, 2026',
-      image: 'https://images.pexels.com/photos/4145153/pexels-photo-4145153.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      title: 'Miami Beach Winter Showcase 2025',
+      date: 'January 18, 2025',
+      image: 'https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg?auto=compress&cs=tinysrgb&w=1200',
       description:
-        'Florida International University\'s annual battle of the bands competition, co-presented by the South Florida Arts Foundation. Student bands compete for studio time, equipment grants, and the chance to perform at our summer concert series.',
-      location: 'FIU Graham Center, 11200 SW 8th St, Miami, FL 33199',
+        'An afternoon of winter-themed performances by student musicians from Miami Beach-area schools. The showcase highlighted the impact of our instrument donation program and featured special guest artists from the South Florida music community.',
+      location: '660 Lincoln Rd, Miami Beach, FL 33139',
+    },
+    {
+      title: 'Youth Music Festival 2023/2024',
+      date: '2023–2024 Season',
+      image: 'https://images.pexels.com/photos/164936/pexels-photo-164936.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      description:
+        'The Miami Beach Youth Music Festival is an annual community event showcasing the musical talents of young, local South Florida artists. Hosted by the City of Miami Beach, the festival highlights students and young bands performing everything from rock and pop to jazz and classical music.',
+      location: '7275 Collins Avenue, Miami Beach, FL 33141',
     },
   ];
 
@@ -50,9 +50,9 @@ export default function Events({ onNavigate }: EventsProps) {
           className="absolute inset-0 w-full h-full object-cover opacity-25"
         />
         <div className="relative max-w-6xl mx-auto px-6">
-          <span className="text-amber-400 text-xs font-semibold uppercase tracking-widest">Events</span>
+          <span className="text-amber-400 text-xs font-semibold uppercase tracking-widest">Events & Programs</span>
           <h1 className="text-4xl md:text-5xl font-bold text-white mt-3 max-w-2xl leading-tight">
-            Upcoming Events
+            Events & Programs
           </h1>
           <p className="text-stone-300 mt-4 text-lg max-w-xl">
             Join us in making music education accessible to every student.
