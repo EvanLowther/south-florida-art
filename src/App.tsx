@@ -8,22 +8,41 @@ import Donate from './pages/Donate';
 
 type Page = 'home' | 'about' | 'events' | 'donate';
 
+const pathToPage = (): Page => {
+  const path = window.location.pathname.slice(1);
+  if (path === 'about') return 'about';
+  if (path === 'events') return 'events';
+  if (path === 'donate') return 'donate';
+  return 'home';
+};
+
+const pageTitles: Record<Page, string> = {
+  home: 'South Florida Arts Foundation — Music For Every Student',
+  about: 'About Us — South Florida Arts Foundation',
+  events: 'Events & Programs — South Florida Arts Foundation',
+  donate: 'Donate — South Florida Arts Foundation',
+};
+
 export default function App() {
-  const [page, setPage] = useState<Page>('home');
+  const [page, setPage] = useState<Page>(pathToPage);
 
   const navigate = (target: string) => {
-    setPage(target as Page);
+    const p = target as Page;
+    setPage(p);
+    window.history.pushState({ page: p }, '', p === 'home' ? '/' : `/${p}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   useEffect(() => {
-    const titles: Record<Page, string> = {
-      home: 'South Florida Arts Foundation — Music For Every Student',
-      about: 'About Us — South Florida Arts Foundation',
-      events: 'Events — South Florida Arts Foundation',
-      donate: 'Donate — South Florida Arts Foundation',
+    const handlePop = (e: PopStateEvent) => {
+      setPage(e.state?.page ?? pathToPage());
     };
-    document.title = titles[page];
+    window.addEventListener('popstate', handlePop);
+    return () => window.removeEventListener('popstate', handlePop);
+  }, []);
+
+  useEffect(() => {
+    document.title = pageTitles[page];
   }, [page]);
 
   return (
