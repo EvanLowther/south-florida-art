@@ -63,14 +63,11 @@ export default function About({ onNavigate }: AboutProps) {
             </h2>
             <div className="space-y-5 text-stone-600 leading-relaxed">
               <p>
-                South Florida Arts Foundation was founded in 2018 after our co-founders witnessed firsthand how budget cuts were silencing school music programs across Central Texas. Instruments were sitting in closets — too expensive for families to rent — while talented students were being turned away from band, orchestra, and choir.
-              </p>
+                The South Florida Arts Foundation was founded in 2022 with the goal of addressing a gap that existed within an otherwise vibrant arts community. While access to the arts was present across South Florida, there was a lack of cohesion between regions and among organizations. Opportunities for collaboration across South Florida, as well as between various arts nonprofits, were not fully realized, limiting the overall impact that could be achieved together.              </p>
               <p>
-                We fill the structural gap between instrument availability and student access. Rather than pushing for systemic policy change alone, we take direct action: sourcing instruments, funding their restoration, and placing them in the hands of children who are ready to play.
-              </p>
+                At the same time, many talented artists, musicians, and writers found it difficult to showcase their work beyond their immediate environments, often being confined to performances within their schools or small local settings. Afterschool arts programs, despite their potential, frequently lacked the resources, guidance, and infrastructure needed to grow and become self-sustaining. As a result, underfunding and limited support often led to decreased student engagement and retention.              </p>
               <p>
-                The research is unambiguous. Students who participate in music education demonstrate stronger academic performance, higher graduation rates, and measurable improvements in cognitive development, emotional regulation, and social cohesion. Music is not an extracurricular — it is an educational cornerstone, and we intend to protect it.
-              </p>
+                In response, the South Florida Arts Foundation was created to strengthen connections within the arts community and provide meaningful opportunities for young creatives. Through collaborative events, performances, and partnerships, the organization works to showcase student talent, connect nonprofits, and build a more unified and supportive arts network. By fostering collaboration, expanding access, and investing in sustainable program development, the foundation aims to create a stronger, more connected arts ecosystem for the next generation.              </p>
             </div>
             <button
               onClick={() => onNavigate('donate')}

@@ -6,9 +6,9 @@ interface HomeProps {
 
 export default function Home({ onNavigate }: HomeProps) {
   const stats = [
-    { value: '2,400+', label: 'Instruments Donated' },
-    { value: '$318,000', label: 'Funds Invested in Programs' },
-    { value: '5,100+', label: 'Students Supported' },
+    { value: '20+', label: 'Instruments Donated' },
+    { value: '$25k+', label: 'Funds Invested in Programs' },
+    { value: '1K+', label: 'Students Supported' },
   ];
 
   const features = [
