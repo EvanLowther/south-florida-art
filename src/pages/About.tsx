@@ -8,22 +8,22 @@ export default function About({ onNavigate }: AboutProps) {
   const steps = [
     {
       number: '01',
-      title: 'Donation',
-      desc: 'Generous individuals, corporate partners, and retiring musicians contribute instruments or financial support. Every donation — regardless of size — directly fuels our mission.',
+      title: 'Connect and Build Arts Communities',
+      desc: 'Artists, nonprofits, and communities are brought together through collaborative events, performances, and networking opportunities.',
       color: 'bg-amber-50 border-amber-200',
       numColor: 'text-amber-600',
     },
     {
       number: '02',
-      title: 'Refurbishment',
-      desc: 'Each donated instrument is professionally inspected, deep-cleaned, and repaired by certified technicians to meet or exceed school-band standards before it ever reaches a student.',
+      title: 'Support and Strengthen Music Programs',
+      desc: 'Sustainable music programs are developed by modernizing ensembles through technology, upgraded equipment, and expanded performance opportunities.',
       color: 'bg-sky-50 border-sky-200',
       numColor: 'text-sky-600',
     },
     {
       number: '03',
-      title: 'The Impact',
-      desc: "Fully restored instruments are matched with eager students in partnered local music programs. Our placement coordinators work directly with directors to ensure the right fit for every child.",
+      title: 'Partnerships',
+      desc: "Partnerships are established with schools to provide high-quality afterschool programs where students are given the space and support to fully explore and develop their passions.",
       color: 'bg-emerald-50 border-emerald-200',
       numColor: 'text-emerald-600',
     },
