@@ -1,5 +1,6 @@
 import { ArrowRight, Music, Heart, School } from 'lucide-react';
 import mainHero from '../assets/images/MainHomePage.jpg';
+import quoteImage from '../assets/images/HomePageQoute.jpg';
 
 interface HomeProps {
   onNavigate: (page: string) => void;
@@ -132,7 +133,7 @@ export default function Home({ onNavigate }: HomeProps) {
       {/* Hero image quote */}
       <section className="relative py-32 overflow-hidden">
         <img
-          src="https://images.pexels.com/photos/4145153/pexels-photo-4145153.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          src={quoteImage}
           alt="Children in music class"
           className="absolute inset-0 w-full h-full object-cover"
         />
