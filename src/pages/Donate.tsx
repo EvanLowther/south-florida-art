@@ -345,10 +345,16 @@ export default function Donate() {
                     name="condition_description"
                     value={form.condition_description}
                     onChange={handleChange}
+                    maxLength={500}
                     rows={3}
                     placeholder="Describe the instrument's condition, any known repairs needed, and whether the case is included..."
                     className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-500 transition-colors text-sm resize-none"
                   />
+                  {form.condition_description.length > 0 && (
+                    <p className="text-xs text-stone-400 mt-1 text-right">
+                      {form.condition_description.length}/500
+                    </p>
+                  )}
                 </div>
 
                 {error && (

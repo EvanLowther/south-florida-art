@@ -71,7 +71,7 @@ serve(async (req) => {
 
     const sanitizedName = sanitizeInput(name, 255)
     const sanitizedEmail = sanitizeInput(email, 255)
-    const sanitizedCondition = condition_description ? sanitizeInput(condition_description) : null
+    const sanitizedCondition = condition_description ? sanitizeInput(condition_description, 500) : null
 
     const { data, error } = await supabase
       .from('instrument_inquiries')
