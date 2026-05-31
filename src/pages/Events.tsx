@@ -3,6 +3,7 @@ import WinterShowcase1 from '../assets/images/WinterShowcase1.jpg';
 import SpringShowcase1 from '../assets/images/SpringShowcase1.jpg';
 import BOB1 from '../assets/images/BOB1.jpg';
 import YMF1 from '../assets/images/YMF1.jpeg';
+import EventsMain from '../assets/images/EventsMain.jpg';
 
 interface EventsProps {
   onNavigate: (page: string) => void;
@@ -49,7 +50,7 @@ export default function Events({ onNavigate }: EventsProps) {
       {/* Page Header */}
       <section className="relative pt-32 pb-20 bg-stone-900 overflow-hidden">
         <img
-          src="https://images.pexels.com/photos/4145153/pexels-photo-4145153.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          src={EventsMain}
           alt="Community event"
           className="absolute inset-0 w-full h-full object-cover opacity-25"
         />
