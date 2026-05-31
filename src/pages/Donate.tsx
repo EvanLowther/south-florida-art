@@ -50,6 +50,7 @@ export default function Donate() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
   const [customAmount, setCustomAmount] = useState('');
+  const [paymentError, setPaymentError] = useState('');
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
 
   const handleChange = (
@@ -98,7 +99,7 @@ export default function Donate() {
 
   const handleDonation = async (amount: number) => {
     setLoading(true);
-    setError('');
+    setPaymentError('');
 
     try {
       const response = await fetch(
@@ -120,18 +121,18 @@ export default function Donate() {
 
       if (!response.ok) {
         setLoading(false);
-        setError(data.error || 'Payment failed. Please try again.');
+        setPaymentError(data.error || 'Payment failed. Please try again.');
         return;
       }
 
       if (data.url) {
         window.location.href = data.url;
       } else {
-        setError('Payment failed. Please try again.');
+        setPaymentError('Payment failed. Please try again.');
         setLoading(false);
       }
     } catch {
-      setError('Payment failed. Please try again.');
+      setPaymentError('Payment failed. Please try again.');
       setLoading(false);
     }
   };
@@ -225,6 +226,10 @@ export default function Donate() {
               </div>
             </div>
 
+            {paymentError && (
+              <p className="text-red-500 text-sm mb-4">{paymentError}</p>
+            )}
+
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 mb-6">
               <div className="flex gap-2.5 items-start">
                 <Info size={15} className="text-amber-600 mt-0.5 shrink-0" />
@@ -240,7 +245,7 @@ export default function Donate() {
                 if (amount && amount > 0) {
                   handleDonation(amount);
                 } else {
-                  setError('Please select or enter a donation amount');
+                  setPaymentError('Please select or enter a donation amount');
                 }
               }}
               disabled={loading}
