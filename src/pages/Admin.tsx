@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { LogOut, Mail, PackageOpen } from 'lucide-react';
+import { ChevronDown, LogOut, Mail, PackageOpen } from 'lucide-react';
 
 interface Inquiry {
   id: string;
@@ -39,12 +39,43 @@ function formatDate(iso: string) {
   });
 }
 
+const statusOptions = ['new', 'contacted', 'completed', 'cancelled'];
+
 export default function Admin() {
   const { user, signOut } = useAuth();
   const [tab, setTab] = useState<Tab>('donations');
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [loading, setLoading] = useState(true);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleStatusChange = async (id: string, status: string) => {
+    const prev = inquiries.find((i) => i.id === id)?.status;
+    setInquiries((prevInq) =>
+      prevInq.map((i) => (i.id === id ? { ...i, status } : i))
+    );
+    setOpenDropdown(null);
+    const { error } = await supabase
+      .from('instrument_inquiries')
+      .update({ status })
+      .eq('id', id);
+    if (error) {
+      setInquiries((prevInq) =>
+        prevInq.map((i) => (i.id === id ? { ...i, status: prev ?? i.status } : i))
+      );
+    }
+  };
 
   useEffect(() => {
     if (tab === 'donations') {
@@ -145,13 +176,38 @@ export default function Admin() {
                       </p>
                     )}
                   </div>
-                  <span
-                    className={`inline-block text-xs font-medium px-3 py-1 rounded-full border ${
-                      statusStyles[inq.status] ?? 'bg-stone-50 text-stone-600 border-stone-200'
-                    }`}
-                  >
-                    {inq.status.charAt(0).toUpperCase() + inq.status.slice(1)}
-                  </span>
+                  <div className="relative inline-block">
+                    <button
+                      onClick={() => setOpenDropdown(openDropdown === inq.id ? null : inq.id)}
+                      className={`flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-full border transition-colors ${
+                        statusStyles[inq.status] ?? 'bg-stone-50 text-stone-600 border-stone-200'
+                      }`}
+                    >
+                      {inq.status.charAt(0).toUpperCase() + inq.status.slice(1)}
+                      <ChevronDown size={12} />
+                    </button>
+                    {openDropdown === inq.id && (
+                      <div
+                        ref={dropdownRef}
+                        className="absolute left-0 top-full mt-1 z-10 w-36 bg-white border border-stone-200 rounded-xl shadow-lg overflow-hidden"
+                      >
+                        {statusOptions.map((opt) => (
+                          <button
+                            key={opt}
+                            onClick={() => handleStatusChange(inq.id, opt)}
+                            className={`w-full text-left px-4 py-2 text-sm transition-colors ${
+                              opt === inq.status
+                                ? 'text-stone-400 cursor-not-allowed'
+                                : 'text-stone-700 hover:bg-stone-50'
+                            }`}
+                            disabled={opt === inq.status}
+                          >
+                            {opt.charAt(0).toUpperCase() + opt.slice(1)}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
