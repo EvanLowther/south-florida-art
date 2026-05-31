@@ -7,10 +7,14 @@ const corsHeaders = {
 }
 
 const VALID_INSTRUMENT_TYPES = [
-  'Violin', 'Viola', 'Cello', 'Double Bass', 'Flute', 'Clarinet', 'Oboe', 'Bassoon',
-  'Alto Saxophone', 'Tenor Saxophone', 'Trumpet', 'French Horn', 'Trombone',
-  'Euphonium / Baritone', 'Tuba', 'Percussion Kit', 'Snare Drum',
-  'Marimba / Xylophone', 'Acoustic Guitar', 'Piano / Keyboard', 'Other'
+  'Electric Guitar', 'Acoustic Guitar', 'Bass Guitar', 'Piano / Keyboard',
+  'Violin', 'Viola', 'Cello', 'Double Bass',
+  'Flute', 'Clarinet', 'Oboe', 'Bassoon',
+  'Alto Saxophone', 'Tenor Saxophone', 'Trumpet', 'French Horn',
+  'Trombone', 'Euphonium / Baritone', 'Tuba',
+  'Audio Equipment', 'Amplifier',
+  'Percussion Kit', 'Snare Drum', 'Marimba / Xylophone',
+  'Other'
 ]
 
 interface RequestBody {
