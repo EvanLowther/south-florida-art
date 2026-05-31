@@ -1,4 +1,5 @@
 import { MapPin } from 'lucide-react';
+import WinterShowcase1 from '../assets/images/WinterShowcase1.jpg';
 
 interface EventsProps {
   onNavigate: (page: string) => void;
@@ -25,7 +26,7 @@ export default function Events({ onNavigate }: EventsProps) {
     {
       title: 'Miami Beach Winter Showcase 2025',
       date: 'January 18, 2025',
-      image: 'https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      image: WinterShowcase1,
       description:
         'An afternoon of winter-themed performances by student musicians from Miami Beach-area schools. The showcase highlighted the impact of our instrument donation program and featured special guest artists from the South Florida music community.',
       location: '660 Lincoln Rd, Miami Beach, FL 33139',
