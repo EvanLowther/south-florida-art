@@ -50,6 +50,7 @@ export default function Donate() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
   const [customAmount, setCustomAmount] = useState('');
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -188,9 +189,16 @@ export default function Donate() {
               {donationAmounts.map((amt) => (
                 <button
                   key={amt}
-                  onClick={() => handleDonation(amt)}
+                  onClick={() => {
+                    setSelectedAmount(amt);
+                    setCustomAmount('');
+                  }}
                   disabled={loading}
-                  className="py-3 border-2 border-stone-200 text-stone-700 font-semibold rounded-xl hover:border-amber-500 hover:text-amber-600 transition-colors text-sm disabled:opacity-50"
+                  className={`py-3 border-2 font-semibold rounded-xl transition-colors text-sm disabled:opacity-50 ${
+                    selectedAmount === amt
+                      ? 'bg-amber-600 text-white border-amber-600'
+                      : 'border-stone-200 text-stone-700 hover:border-amber-500 hover:text-amber-600'
+                  }`}
                 >
                   ${amt}
                 </button>
@@ -208,7 +216,10 @@ export default function Donate() {
                   min="1"
                   placeholder="Enter amount"
                   value={customAmount}
-                  onChange={(e) => setCustomAmount(e.target.value)}
+                  onChange={(e) => {
+                    setCustomAmount(e.target.value);
+                    setSelectedAmount(null);
+                  }}
                   className="w-full pl-8 pr-4 py-3 border border-stone-200 rounded-xl text-stone-900 focus:outline-none focus:border-amber-500 transition-colors text-sm"
                 />
               </div>
@@ -225,7 +236,7 @@ export default function Donate() {
 
             <button 
               onClick={() => {
-                const amount = customAmount ? parseInt(customAmount, 10) : null;
+                const amount = selectedAmount ?? (customAmount ? parseInt(customAmount, 10) : null);
                 if (amount && amount > 0) {
                   handleDonation(amount);
                 } else {
