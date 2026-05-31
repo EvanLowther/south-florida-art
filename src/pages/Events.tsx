@@ -94,24 +94,6 @@ export default function Events({ onNavigate }: EventsProps) {
           ))}
         </div>
       </section>
-
-      {/* CTA Banner */}
-      <section className="bg-amber-600 py-16">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            Want to host an event with us?
-          </h2>
-          <p className="text-amber-100 mb-8 text-lg">
-            We are always looking for community partners. Reach out to discuss sponsorship, co-hosting, or volunteer opportunities.
-          </p>
-          <button
-            onClick={() => onNavigate('donate')}
-            className="px-7 py-3.5 bg-white text-amber-700 font-semibold rounded-full hover:bg-amber-50 transition-colors"
-          >
-            Support Our Mission
-          </button>
-        </div>
-      </section>
     </>
   );
 }
