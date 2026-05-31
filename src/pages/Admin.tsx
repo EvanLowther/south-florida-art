@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { ChevronDown, LogOut, Mail, PackageOpen } from 'lucide-react';
+import { ChevronDown, LogOut, Mail, PackageOpen, Trash2 } from 'lucide-react';
 
 interface Inquiry {
   id: string;
@@ -48,6 +48,7 @@ export default function Admin() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [loading, setLoading] = useState(true);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -75,6 +76,26 @@ export default function Admin() {
         prevInq.map((i) => (i.id === id ? { ...i, status: prev ?? i.status } : i))
       );
     }
+  };
+
+  const handleDelete = async (table: string, id: string, label: string) => {
+    const msg = table === 'instrument_inquiries'
+      ? `Are you sure you want to delete this inquiry from ${label}?`
+      : `Are you sure you want to delete this subscription from ${label}?`;
+    if (!window.confirm(msg)) return;
+
+    setDeletingId(id);
+    if (table === 'instrument_inquiries') {
+      setInquiries((prev) => prev.filter((i) => i.id !== id));
+    } else {
+      setSubscriptions((prev) => prev.filter((s) => s.id !== id));
+    }
+
+    const { error } = await supabase.from(table).delete().eq('id', id);
+    if (error) {
+      location.reload();
+    }
+    setDeletingId(null);
   };
 
   useEffect(() => {
@@ -176,37 +197,46 @@ export default function Admin() {
                       </p>
                     )}
                   </div>
-                  <div className="relative inline-block">
-                    <button
-                      onClick={() => setOpenDropdown(openDropdown === inq.id ? null : inq.id)}
-                      className={`flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-full border transition-colors ${
-                        statusStyles[inq.status] ?? 'bg-stone-50 text-stone-600 border-stone-200'
-                      }`}
-                    >
-                      {inq.status.charAt(0).toUpperCase() + inq.status.slice(1)}
-                      <ChevronDown size={12} />
-                    </button>
-                    {openDropdown === inq.id && (
-                      <div
-                        ref={dropdownRef}
-                        className="absolute left-0 top-full mt-1 z-10 w-36 bg-white border border-stone-200 rounded-xl shadow-lg overflow-hidden"
+                  <div className="flex items-center justify-between">
+                    <div className="relative inline-block">
+                      <button
+                        onClick={() => setOpenDropdown(openDropdown === inq.id ? null : inq.id)}
+                        className={`flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-full border transition-colors ${
+                          statusStyles[inq.status] ?? 'bg-stone-50 text-stone-600 border-stone-200'
+                        }`}
                       >
-                        {statusOptions.map((opt) => (
-                          <button
-                            key={opt}
-                            onClick={() => handleStatusChange(inq.id, opt)}
-                            className={`w-full text-left px-4 py-2 text-sm transition-colors ${
-                              opt === inq.status
-                                ? 'text-stone-400 cursor-not-allowed'
-                                : 'text-stone-700 hover:bg-stone-50'
-                            }`}
-                            disabled={opt === inq.status}
-                          >
-                            {opt.charAt(0).toUpperCase() + opt.slice(1)}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+                        {inq.status.charAt(0).toUpperCase() + inq.status.slice(1)}
+                        <ChevronDown size={12} />
+                      </button>
+                      {openDropdown === inq.id && (
+                        <div
+                          ref={dropdownRef}
+                          className="absolute left-0 top-full mt-1 z-10 w-36 bg-white border border-stone-200 rounded-xl shadow-lg overflow-hidden"
+                        >
+                          {statusOptions.map((opt) => (
+                            <button
+                              key={opt}
+                              onClick={() => handleStatusChange(inq.id, opt)}
+                              className={`w-full text-left px-4 py-2 text-sm transition-colors ${
+                                opt === inq.status
+                                  ? 'text-stone-400 cursor-not-allowed'
+                                  : 'text-stone-700 hover:bg-stone-50'
+                              }`}
+                              disabled={opt === inq.status}
+                            >
+                              {opt.charAt(0).toUpperCase() + opt.slice(1)}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => handleDelete('instrument_inquiries', inq.id, inq.name)}
+                      disabled={deletingId === inq.id}
+                      className="text-stone-400 hover:text-red-500 transition-colors disabled:opacity-50"
+                    >
+                      <Trash2 size={15} />
+                    </button>
                   </div>
                 </div>
               ))}
@@ -222,6 +252,7 @@ export default function Admin() {
                   <th className="text-left px-6 py-4 font-semibold text-stone-700">#</th>
                   <th className="text-left px-6 py-4 font-semibold text-stone-700">Email</th>
                   <th className="text-right px-6 py-4 font-semibold text-stone-700">Subscribed</th>
+                  <th className="w-16"></th>
                 </tr>
               </thead>
               <tbody>
@@ -231,6 +262,15 @@ export default function Admin() {
                     <td className="px-6 py-4 text-stone-900">{sub.email}</td>
                     <td className="px-6 py-4 text-right text-stone-500">
                       {formatDate(sub.subscribed_at)}
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <button
+                        onClick={() => handleDelete('newsletter_subscriptions', sub.id, sub.email)}
+                        disabled={deletingId === sub.id}
+                        className="text-stone-400 hover:text-red-500 transition-colors disabled:opacity-50"
+                      >
+                        <Trash2 size={15} />
+                      </button>
                     </td>
                   </tr>
                 ))}
