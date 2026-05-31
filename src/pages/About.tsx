@@ -159,7 +159,7 @@ export default function About({ onNavigate }: AboutProps) {
 
             <div className="flex flex-col md:flex-row items-center gap-8 justify-between">
               <div>
-                <h3 className="font-bold text-stone-900 text-lg mb-1">Download our R-99 Documentation</h3>
+                <h3 className="font-bold text-stone-900 text-lg mb-1">Download our Form 990</h3>
                 <p className="text-stone-500 text-sm">
                   IRS Form 990 annual returns and financial disclosures providing transparency into our operational and program spending.
                 </p>
