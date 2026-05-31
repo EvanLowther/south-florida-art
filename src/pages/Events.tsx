@@ -1,5 +1,8 @@
 import { MapPin } from 'lucide-react';
 import WinterShowcase1 from '../assets/images/WinterShowcase1.jpg';
+import SpringShowcase1 from '../assets/images/SpringShowcase1.jpg';
+import BOB1 from '../assets/images/BOB1.jpg';
+import YMF1 from '../assets/images/YMF1.jpeg';
 
 interface EventsProps {
   onNavigate: (page: string) => void;
@@ -10,7 +13,7 @@ export default function Events({ onNavigate }: EventsProps) {
     {
       title: 'FIU Battle of the Bands 2026',
       date: 'March 28, 2026',
-      image: 'https://images.pexels.com/photos/4145153/pexels-photo-4145153.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      image: BOB1,
       description:
         'Florida International University\'s annual battle of the bands competition, co-presented by the South Florida Arts Foundation. Student bands compete for studio time, equipment grants, and the chance to perform at our summer concert series.',
       location: 'Parkview Turf, 11200 SW 8th St, Miami, FL 33199',
@@ -18,7 +21,7 @@ export default function Events({ onNavigate }: EventsProps) {
     {
       title: 'Miami Beach Spring Arts Showcase 2025',
       date: 'April 26, 2025',
-      image: 'https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      image: SpringShowcase1,
       description:
         'A vibrant spring celebration of music, dance, and visual arts featuring students from Miami Beach public schools. Proceeds from the event supported continued arts programming and instrument maintenance for the following academic year.',
       location: '660 Lincoln Rd, Miami Beach, FL 33139',
@@ -34,7 +37,7 @@ export default function Events({ onNavigate }: EventsProps) {
     {
       title: 'Youth Music Festival 2023/2024',
       date: '2023–2024 Season',
-      image: 'https://images.pexels.com/photos/164936/pexels-photo-164936.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      image: YMF1,
       description:
         'The Miami Beach Youth Music Festival is an annual community event showcasing the musical talents of young, local South Florida artists. Hosted by the City of Miami Beach, the festival highlights students and young bands performing everything from rock and pop to jazz and classical music.',
       location: '7275 Collins Avenue, Miami Beach, FL 33141',
