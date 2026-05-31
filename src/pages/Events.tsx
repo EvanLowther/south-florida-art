@@ -5,11 +5,7 @@ import BOB1 from '../assets/images/BOB1.jpg';
 import YMF1 from '../assets/images/YMF1.jpeg';
 import EventsMain from '../assets/images/EventsMain.jpg';
 
-interface EventsProps {
-  onNavigate: (page: string) => void;
-}
-
-export default function Events({ onNavigate }: EventsProps) {
+export default function Events() {
   const events = [
     {
       title: 'FIU Battle of the Bands 2026',
