@@ -1,6 +1,8 @@
 import { ArrowRight, FileText } from 'lucide-react';
 import aboutFirst from '../assets/images/AboutPageImagefirsthalf.jpg';
 import aboutSecond from '../assets/images/AboutPageImageSecondhalf.jpg';
+import irs501c3 from '../assets/documents/IRS 501c3 Tax Exemption.pdf';
+import form990 from '../assets/documents/Form 990 2024-2025.pdf';
 
 interface AboutProps {
   onNavigate: (page: string) => void;
@@ -147,8 +149,9 @@ export default function About({ onNavigate }: AboutProps) {
                 </p>
               </div>
               <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
+                href={irs501c3}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-stone-900 text-white font-semibold rounded-full hover:bg-stone-800 transition-colors text-sm"
               >
                 <FileText size={15} /> Download PDF
@@ -165,8 +168,9 @@ export default function About({ onNavigate }: AboutProps) {
                 </p>
               </div>
               <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
+                href={form990}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-stone-900 text-white font-semibold rounded-full hover:bg-stone-800 transition-colors text-sm"
               >
                 <FileText size={15} /> Download PDF
