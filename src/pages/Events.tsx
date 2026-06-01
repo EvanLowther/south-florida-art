@@ -8,11 +8,11 @@ import EventsMain from '../assets/images/EventsMain.jpg';
 export default function Events() {
   const events = [
     {
-      title: 'FIU Battle of the Bands 2026',
+      title: 'FIU Battle of the Bands',
       date: 'March 28, 2026',
       image: BOB1,
       description:
-        'Florida International University\'s annual battle of the bands competition, co-presented by the South Florida Arts Foundation. Student bands compete for studio time, equipment grants, and the chance to perform at our summer concert series.',
+        'Florida International University\'s annual battle of the bands competition, co-presented by the South Florida Arts Foundation. Student bands compete for studio time, equipment grants, and the chance to perform at our Miami Beach showcases.',
       location: 'Parkview Turf, 11200 SW 8th St, Miami, FL 33199',
     },
     {
