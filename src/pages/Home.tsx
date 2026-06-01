@@ -1,6 +1,12 @@
 import { ArrowRight, Music, Heart, School } from 'lucide-react';
 import mainHero from '../assets/images/MainHomePage.jpg';
-import quoteImage from '../assets/images/HomePageQoute.jpg';
+import fienbergFisher from '../assets/images/logos/fienberg-fisher-k8-center.webp';
+import miamiArts from '../assets/images/logos/miami-arts-charter-academy.webp';
+import miamiBeach from '../assets/images/logos/miami-beach-senior-high.png';
+import nautilus from '../assets/images/logos/nautilus-middle-school.png';
+import southPointe from '../assets/images/logos/south-pointe-elementary.png';
+import youngMens from '../assets/images/logos/young-mens-preparatory-academy.png';
+import northBeach from '../assets/images/logos/north-beach-elementary.png';
 
 interface HomeProps {
   onNavigate: (page: string) => void;
@@ -29,6 +35,16 @@ export default function Home({ onNavigate }: HomeProps) {
       title: 'Partnerships',
       desc: 'We work directly with school music directors to identify and serve students with the greatest need.',
     },
+  ];
+
+  const schools = [
+    { name: 'Fienberg Fisher K-8 Center', logo: fienbergFisher },
+    { name: 'Miami Arts Charter Academy', logo: miamiArts },
+    { name: 'Miami Beach Senior High School', logo: miamiBeach },
+    { name: 'Nautilus Middle School', logo: nautilus },
+    { name: 'South Pointe Elementary', logo: southPointe },
+    { name: "Young Men's Preparatory Academy", logo: youngMens },
+    { name: 'North Beach Elementary', logo: northBeach },
   ];
 
   return (
@@ -130,19 +146,23 @@ export default function Home({ onNavigate }: HomeProps) {
         </div>
       </section>
 
-      {/* Hero image quote */}
-      <section className="relative py-32 overflow-hidden">
-        <img
-          src={quoteImage}
-          alt="Children in music class"
-          className="absolute inset-0 w-full h-full object-cover object-top"
-        />
-        <div className="absolute inset-0 bg-stone-900/70" />
-        <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <blockquote className="text-2xl md:text-3xl font-medium text-white leading-relaxed mb-6">
-            "Music gives a soul to the universe, wings to the mind, flight to the imagination, and life to everything."
-          </blockquote>
-          <cite className="text-stone-400 text-sm">— Plato</cite>
+      {/* Collaborating Schools */}
+      <section className="bg-stone-50 py-24">
+        <div className="max-w-6xl mx-auto px-6">
+          <span className="text-amber-600 text-xs font-semibold uppercase tracking-widest block text-center">Our Network</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mt-3 mb-12 text-center">
+            Organizations Collaborated With
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 items-center">
+            {schools.map((school) => (
+              <div key={school.name} className="flex flex-col items-center gap-3 p-6 bg-white rounded-xl border border-stone-100 hover:border-amber-200 transition-all">
+                <div className="w-full h-24 flex items-center justify-center">
+                  <img src={school.logo} alt={school.name} className="w-full h-full object-contain" />
+                </div>
+                <span className="text-sm text-stone-600 font-medium text-center leading-tight">{school.name}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
