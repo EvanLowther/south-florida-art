@@ -171,7 +171,7 @@ export default function Home({ onNavigate }: HomeProps) {
             {schools.map((school) => (
               <div key={school.name} className="flex flex-col items-center gap-2 sm:gap-3 p-4 sm:p-6 bg-white rounded-xl border border-stone-100 hover:border-amber-200 transition-all">
                 <div className={`w-full h-16 sm:h-20 md:h-24 ${school.cropLeft ? 'overflow-hidden' : 'flex items-center justify-center'}`}>
-                  <img src={school.logo} alt={school.name} className={`h-full ${school.cropLeft ? 'w-[200%] max-w-none object-cover object-left' : 'w-full object-contain'}`} />
+                  <img src={school.logo} alt={school.name} className={`h-full ${school.cropLeft ? 'w-[150%] max-w-none object-cover object-left' : 'w-full object-contain'}`} />
                 </div>
                 <span className="text-xs sm:text-sm text-stone-600 font-medium text-center leading-tight">{school.name}</span>
               </div>
