@@ -56,7 +56,7 @@ export default function About() {
               src={ericP}
               alt="Eric C. Pinto-Panizales, Founder"
               className="w-full h-full object-cover"
-              style={{ objectPosition: 'center 20%' }}
+              style={{ objectPosition: 'center top' }}
             />
           </div>
           <div>
