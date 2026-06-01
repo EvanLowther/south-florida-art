@@ -201,7 +201,7 @@ export default function Donate() {
                       : 'border-stone-200 text-stone-700 hover:border-amber-500 hover:text-amber-600'
                   }`}
                 >
-                  ${amt}
+                  ${amt.toLocaleString()}
                 </button>
               ))}
             </div>

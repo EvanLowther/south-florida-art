@@ -311,7 +311,7 @@ export default function Admin() {
                       <td className="px-6 py-4 text-stone-900">{d.donor_name ?? '—'}</td>
                       <td className="px-6 py-4 text-stone-600">{d.donor_email ?? '—'}</td>
                       <td className="px-6 py-4 text-right font-semibold text-emerald-600">
-                        ${(d.amount / 100).toFixed(2)}
+                        ${(d.amount / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </td>
                       <td className="px-6 py-4 text-center">
                         <span className={`inline-block text-xs font-medium px-2.5 py-1 rounded-full border ${donationStatusStyles[d.status] ?? 'bg-stone-50 text-stone-600 border-stone-200'}`}>
