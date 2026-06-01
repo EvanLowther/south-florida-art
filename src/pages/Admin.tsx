@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { ChevronDown, DollarSign, LogOut, Mail, PackageOpen, Trash2 } from 'lucide-react';
@@ -36,6 +36,12 @@ const statusStyles: Record<string, string> = {
   contacted: 'bg-blue-50 text-blue-700 border-blue-200',
   completed: 'bg-emerald-50 text-emerald-700 border-emerald-200',
   cancelled: 'bg-red-50 text-red-700 border-red-200',
+};
+
+const donationStatusStyles: Record<string, string> = {
+  pending: 'bg-amber-50 text-amber-700 border-amber-200',
+  completed: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  refunded: 'bg-red-50 text-red-700 border-red-200',
 };
 
 function formatDate(iso: string) {
@@ -109,7 +115,7 @@ export default function Admin() {
     setDeletingId(null);
   };
 
-  useEffect(() => {
+  const loadData = useCallback(() => {
     if (tab === 'inquiries') {
       setLoading(true);
       supabase
@@ -142,6 +148,14 @@ export default function Admin() {
         });
     }
   }, [tab]);
+
+  useEffect(() => {
+    loadData();
+    if (tab === 'financial') {
+      const interval = setInterval(loadData, 15000);
+      return () => clearInterval(interval);
+    }
+  }, [loadData, tab]);
 
   return (
     <div className="min-h-screen bg-stone-50">
@@ -286,6 +300,7 @@ export default function Admin() {
                     <th className="text-left px-6 py-4 font-semibold text-stone-700">Name</th>
                     <th className="text-left px-6 py-4 font-semibold text-stone-700">Email</th>
                     <th className="text-right px-6 py-4 font-semibold text-stone-700">Amount</th>
+                    <th className="text-center px-6 py-4 font-semibold text-stone-700">Status</th>
                     <th className="text-right px-6 py-4 font-semibold text-stone-700">Date</th>
                   </tr>
                 </thead>
@@ -297,6 +312,11 @@ export default function Admin() {
                       <td className="px-6 py-4 text-stone-600">{d.donor_email ?? '—'}</td>
                       <td className="px-6 py-4 text-right font-semibold text-emerald-600">
                         ${(d.amount / 100).toFixed(2)}
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <span className={`inline-block text-xs font-medium px-2.5 py-1 rounded-full border ${donationStatusStyles[d.status] ?? 'bg-stone-50 text-stone-600 border-stone-200'}`}>
+                          {d.status.charAt(0).toUpperCase() + d.status.slice(1)}
+                        </span>
                       </td>
                       <td className="px-6 py-4 text-right text-stone-500">
                         {formatDate(d.created_at)}

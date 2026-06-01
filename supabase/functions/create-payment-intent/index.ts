@@ -1,5 +1,6 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import Stripe from 'https://esm.sh/stripe@14.14.0?target=deno'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { getCorsHeaders } from '../_shared/cors.ts'
 import { checkRateLimit, RATE_LIMITS, getClientIp } from '../_shared/rate-limiter.ts'
 
@@ -91,6 +92,20 @@ serve(async (req) => {
         source: 'south_florida_arts_foundation',
       },
     })
+
+    // Insert pending donation record
+    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const { error: insertError } = await supabase
+      .from('donations')
+      .insert({
+        stripe_session_id: session.id,
+        amount,
+        status: 'pending',
+      })
+
+    if (insertError) {
+      console.error('Failed to insert pending donation:', insertError)
+    }
 
     return new Response(
       JSON.stringify({

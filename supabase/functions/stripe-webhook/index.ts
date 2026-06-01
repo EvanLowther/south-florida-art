@@ -56,23 +56,37 @@ serve(async (req) => {
 
       const { error } = await supabase
         .from('donations')
-        .insert({
-          stripe_session_id: session.id,
-          amount: session.amount_total,
+        .update({
+          status: 'completed',
           donor_name: session.customer_details?.name ?? null,
           donor_email: session.customer_details?.email ?? null,
-          status: 'completed',
         })
+        .eq('stripe_session_id', session.id)
 
       if (error) {
-        console.error('Failed to insert donation:', error)
+        console.error('Failed to update donation:', error)
         return new Response(
           JSON.stringify({ error: 'Failed to record donation' }),
           { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
         )
       }
 
-      console.log(`Donation recorded: ${session.id} ($${(session.amount_total ?? 0) / 100})`)
+      console.log(`Donation completed: ${session.id} ($${(session.amount_total ?? 0) / 100})`)
+    }
+
+    if (event.type === 'checkout.session.expired') {
+      const session = event.data.object as Stripe.Checkout.Session
+
+      const { error } = await supabase
+        .from('donations')
+        .delete()
+        .eq('stripe_session_id', session.id)
+
+      if (error) {
+        console.error('Failed to delete expired donation:', error)
+      } else {
+        console.log(`Expired donation removed: ${session.id}`)
+      }
     }
 
     return new Response(
