@@ -131,10 +131,10 @@ export default function Home({ onNavigate }: HomeProps) {
             <div>
               <span className="text-amber-600 text-xs font-semibold uppercase tracking-widest">Our Mission</span>
               <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mt-3 mb-6 leading-snug">
-                Music education shouldn't be a luxury reserved for the privileged few.
+                Stronger arts communities are built through connection and collaboration
               </h2>
               <p className="text-stone-600 leading-relaxed mb-8 text-lg">
-                South Florida Arts Foundation bridges the funding gap between school music programs and the students who rely on them. We collect, restore, and distribute quality instruments while investing in the infrastructure that keeps music alive in under-resourced classrooms.
+                The South Florida Arts Foundation expands access to arts education by supporting and modernizing arts programs while providing instruments and resources to students. Through performance opportunities and collaboration, it connects artists, schools, and nonprofits to build a stronger, more unified arts community.
               </p>
               <button
                 onClick={() => onNavigate('about')}
