@@ -17,7 +17,6 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 
     if (!stripeSecretKey || !webhookSecret) {
-      console.error('Stripe secrets not configured')
       return new Response(
         JSON.stringify({ error: 'Webhook not configured' }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
@@ -42,9 +41,8 @@ serve(async (req) => {
 
     let event: Stripe.Event
     try {
-      event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret)
+      event = await Stripe.webhooks.constructEventAsync(rawBody, signature, webhookSecret)
     } catch (err) {
-      console.error('Webhook signature verification failed:', err)
       return new Response(
         JSON.stringify({ error: 'Invalid signature' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
@@ -65,14 +63,11 @@ serve(async (req) => {
         }, { onConflict: 'stripe_session_id' })
 
       if (error) {
-        console.error('Failed to upsert donation:', error)
         return new Response(
           JSON.stringify({ error: 'Failed to record donation' }),
           { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
         )
       }
-
-      console.log(`Donation completed: ${session.id} ($${(session.amount_total ?? 0) / 100})`)
     }
 
     if (event.type === 'checkout.session.expired') {
@@ -85,8 +80,6 @@ serve(async (req) => {
 
       if (error) {
         console.error('Failed to delete expired donation:', error)
-      } else {
-        console.log(`Expired donation removed: ${session.id}`)
       }
     }
 
@@ -95,7 +88,6 @@ serve(async (req) => {
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
     )
   } catch (error) {
-    console.error('Webhook error:', error)
     return new Response(
       JSON.stringify({ error: 'Webhook processing failed' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },

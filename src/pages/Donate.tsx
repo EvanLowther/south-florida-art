@@ -145,7 +145,7 @@ export default function Donate() {
     }
   }, []);
 
-  const donationAmounts = [25, 50, 100, 250, 500, 1000];
+  const donationAmounts = [25, 50, 100, 250, 500, 1000, 5000, 10000];
 
   return (
     <>
