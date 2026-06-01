@@ -7,6 +7,13 @@ import nautilus from '../assets/images/logos/nautilus-middle-school.png';
 import southPointe from '../assets/images/logos/south-pointe-elementary.png';
 import youngMens from '../assets/images/logos/young-mens-preparatory-academy.png';
 import northBeach from '../assets/images/logos/north-beach-elementary.png';
+import dreamMachine from '../assets/images/logos/DreamMachine.png';
+import jam from '../assets/images/logos/Jam.png';
+import lincolnRd from '../assets/images/logos/LincolnRD.png';
+import makerfaire from '../assets/images/logos/MakerFaire.png';
+import wynwoodSOM from '../assets/images/logos/WynwoodSOM.png';
+import mmp from '../assets/images/logos/mmp.png';
+import ymu from '../assets/images/logos/ymu.png';
 
 interface HomeProps {
   onNavigate: (page: string) => void;
@@ -45,6 +52,13 @@ export default function Home({ onNavigate }: HomeProps) {
     { name: 'South Pointe Elementary', logo: southPointe },
     { name: "Young Men's Preparatory Academy", logo: youngMens },
     { name: 'North Beach Elementary', logo: northBeach },
+    { name: 'Dream Machine', logo: dreamMachine },
+    { name: 'JAM', logo: jam },
+    { name: 'Lincoln Road', logo: lincolnRd },
+    { name: 'Maker Faire', logo: makerfaire },
+    { name: 'Wynwood School of Music', logo: wynwoodSOM },
+    { name: 'MMP', logo: mmp },
+    { name: 'YMU', logo: ymu },
   ];
 
   return (
