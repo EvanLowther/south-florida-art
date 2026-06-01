@@ -45,11 +45,11 @@ export default function Home({ onNavigate }: HomeProps) {
   ];
 
   const schools = [
-    { name: 'Fienberg Fisher K-8 Center', logo: fienbergFisher },
+    { name: 'Fienberg Fisher K-8 Center', logo: fienbergFisher, cropLeft: true },
     { name: 'Miami Arts Charter Academy', logo: miamiArts },
     { name: 'Miami Beach Senior High School', logo: miamiBeach },
     { name: 'Nautilus Middle School', logo: nautilus },
-    { name: 'South Pointe Elementary', logo: southPointe },
+    { name: 'South Pointe Elementary', logo: southPointe, cropLeft: true },
     { name: "Young Men's Preparatory Academy", logo: youngMens },
     { name: 'North Beach Elementary', logo: northBeach },
     { name: 'Dream Machine', logo: dreamMachine },
@@ -170,8 +170,8 @@ export default function Home({ onNavigate }: HomeProps) {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 items-center">
             {schools.map((school) => (
               <div key={school.name} className="flex flex-col items-center gap-2 sm:gap-3 p-4 sm:p-6 bg-white rounded-xl border border-stone-100 hover:border-amber-200 transition-all">
-                <div className="w-full h-16 sm:h-20 md:h-24 flex items-center justify-center">
-                  <img src={school.logo} alt={school.name} className="w-full h-full object-contain" />
+                <div className={`w-full h-16 sm:h-20 md:h-24 ${school.cropLeft ? 'overflow-hidden' : 'flex items-center justify-center'}`}>
+                  <img src={school.logo} alt={school.name} className={`h-full ${school.cropLeft ? 'w-[200%] max-w-none object-cover object-left' : 'w-full object-contain'}`} />
                 </div>
                 <span className="text-xs sm:text-sm text-stone-600 font-medium text-center leading-tight">{school.name}</span>
               </div>
