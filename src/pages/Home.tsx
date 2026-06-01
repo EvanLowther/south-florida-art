@@ -9,7 +9,7 @@ interface HomeProps {
 export default function Home({ onNavigate }: HomeProps) {
   const stats = [
     { value: '20+', label: 'Instruments Donated' },
-    { value: '$25k+', label: 'Funds Invested in Programs' },
+    { value: '$35k+', label: 'Funds Invested in Programs' },
     { value: '1K+', label: 'Students Supported' },
   ];
 
