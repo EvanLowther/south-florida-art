@@ -1,10 +1,7 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 import Stripe from 'https://esm.sh/stripe@14.14.0?target=deno'
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-}
+import { getCorsHeaders } from '../_shared/cors.ts'
+import { checkRateLimit, RATE_LIMITS, getClientIp } from '../_shared/rate-limiter.ts'
 
 interface RequestBody {
   amount: number
@@ -16,7 +13,7 @@ function validateAmount(amount: number): { valid: boolean; error?: string } {
   }
   if (amount < 50) {
     return { valid: false, error: 'Minimum donation is $0.50' }
-  } 
+  }
   if (amount > 100000) {
     return { valid: false, error: 'Maximum donation is $1,000' }
   }
@@ -24,8 +21,25 @@ function validateAmount(amount: number): { valid: boolean; error?: string } {
 }
 
 serve(async (req) => {
+  const corsHeaders = getCorsHeaders(req)
+
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
+  }
+
+  const supabaseUrl = Deno.env.get('SUPABASE_URL')!
+  const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+
+  const ip = getClientIp(req)
+  const rateCheck = await checkRateLimit(supabaseUrl, supabaseServiceKey, ip, 'create-payment-intent', RATE_LIMITS.PAYMENT.maxRequests, RATE_LIMITS.PAYMENT.windowMs)
+  if (!rateCheck.allowed) {
+    return new Response(
+      JSON.stringify({ error: 'Too many requests. Please try again later.' }),
+      {
+        status: 429,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json', 'Retry-After': String(rateCheck.retryAfter) },
+      },
+    )
   }
 
   try {
@@ -36,7 +50,7 @@ serve(async (req) => {
       console.error('Stripe secret key not configured')
       return new Response(
         JSON.stringify({ error: 'Payment processing not configured' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
       )
     }
 
@@ -51,7 +65,7 @@ serve(async (req) => {
     if (!validation.valid) {
       return new Response(
         JSON.stringify({ error: validation.error }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
       )
     }
 
@@ -81,16 +95,15 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({
         success: true,
-        url: session.url
+        url: session.url,
       }),
-      { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
     )
-
   } catch (error) {
     console.error('Stripe error:', error)
     return new Response(
       JSON.stringify({ error: 'Payment processing failed' }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
     )
   }
 })
