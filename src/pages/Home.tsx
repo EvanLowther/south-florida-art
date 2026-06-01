@@ -155,11 +155,11 @@ export default function Home({ onNavigate }: HomeProps) {
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 items-center">
             {schools.map((school) => (
-              <div key={school.name} className="flex flex-col items-center gap-3 p-6 bg-white rounded-xl border border-stone-100 hover:border-amber-200 transition-all">
-                <div className="w-full h-24 flex items-center justify-center">
+              <div key={school.name} className="flex flex-col items-center gap-2 sm:gap-3 p-4 sm:p-6 bg-white rounded-xl border border-stone-100 hover:border-amber-200 transition-all">
+                <div className="w-full h-16 sm:h-20 md:h-24 flex items-center justify-center">
                   <img src={school.logo} alt={school.name} className="w-full h-full object-contain" />
                 </div>
-                <span className="text-sm text-stone-600 font-medium text-center leading-tight">{school.name}</span>
+                <span className="text-xs sm:text-sm text-stone-600 font-medium text-center leading-tight">{school.name}</span>
               </div>
             ))}
           </div>
