@@ -56,15 +56,16 @@ serve(async (req) => {
 
       const { error } = await supabase
         .from('donations')
-        .update({
+        .upsert({
+          stripe_session_id: session.id,
+          amount: session.amount_total ?? 0,
           status: 'completed',
           donor_name: session.customer_details?.name ?? null,
           donor_email: session.customer_details?.email ?? null,
-        })
-        .eq('stripe_session_id', session.id)
+        }, { onConflict: 'stripe_session_id' })
 
       if (error) {
-        console.error('Failed to update donation:', error)
+        console.error('Failed to upsert donation:', error)
         return new Response(
           JSON.stringify({ error: 'Failed to record donation' }),
           { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
