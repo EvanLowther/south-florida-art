@@ -1,7 +1,7 @@
 import { FileText } from 'lucide-react';
 import aboutFirst from '../assets/images/AboutPageImagefirsthalf.jpg';
 import aboutSecond from '../assets/images/AboutPageImageSecondhalf.jpg';
-import ericP from '../assets/images/Eric P.jpg';
+import ericP from '../assets/images/Eric.jpg';
 import irs501c3 from '../assets/documents/IRS 501c3 Tax Exemption.pdf';
 import form990 from '../assets/documents/Form 990 2024-2025.pdf';
 
