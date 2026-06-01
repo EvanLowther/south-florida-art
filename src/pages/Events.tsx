@@ -16,7 +16,7 @@ export default function Events() {
       location: 'Parkview Turf, 11200 SW 8th St, Miami, FL 33199',
     },
     {
-      title: 'Miami Beach Spring Arts Showcase 2025',
+      title: 'Miami Beach Schools Spring Arts Showcase 2025',
       date: 'April 26, 2025',
       image: SpringShowcase1,
       description:
@@ -24,7 +24,7 @@ export default function Events() {
       location: '660 Lincoln Rd, Miami Beach, FL 33139',
     },
     {
-      title: 'Miami Beach Winter Showcase 2025',
+      title: 'Miami Beach Schools Holiday Showcase',
       date: 'January 18, 2025',
       image: WinterShowcase1,
       description:
@@ -32,7 +32,7 @@ export default function Events() {
       location: '660 Lincoln Rd, Miami Beach, FL 33139',
     },
     {
-      title: 'Youth Music Festival 2023/2024',
+      title: 'Miami Beach Youth Music Festival',
       date: '2023–2024 Season',
       image: YMF1,
       description:
