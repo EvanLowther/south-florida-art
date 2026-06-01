@@ -1,14 +1,11 @@
-import { ArrowRight, FileText } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import aboutFirst from '../assets/images/AboutPageImagefirsthalf.jpg';
 import aboutSecond from '../assets/images/AboutPageImageSecondhalf.jpg';
+import ericP from '../assets/images/Eric P.jpg';
 import irs501c3 from '../assets/documents/IRS 501c3 Tax Exemption.pdf';
 import form990 from '../assets/documents/Form 990 2024-2025.pdf';
 
-interface AboutProps {
-  onNavigate: (page: string) => void;
-}
-
-export default function About({ onNavigate }: AboutProps) {
+export default function About() {
   const steps = [
     {
       number: '01',
@@ -56,9 +53,10 @@ export default function About({ onNavigate }: AboutProps) {
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
           <div className="relative rounded-2xl overflow-hidden shadow-lg aspect-[4/3]">
             <img
-              src="https://images.pexels.com/photos/7095517/pexels-photo-7095517.jpeg?auto=compress&cs=tinysrgb&w=800"
-              alt="Young student with instrument"
+              src={ericP}
+              alt="Eric C. Pinto-Panizales, Founder"
               className="w-full h-full object-cover"
+              style={{ objectPosition: 'center 20%' }}
             />
           </div>
           <div>
@@ -73,12 +71,9 @@ export default function About({ onNavigate }: AboutProps) {
               <p>
                 In response, the South Florida Arts Foundation was created to strengthen connections within the arts community and provide meaningful opportunities for young creatives. Through collaborative events, performances, and partnerships, the organization works to showcase student talent, connect nonprofits, and build a more unified and supportive arts network. By fostering collaboration, expanding access, and investing in sustainable program development, the foundation aims to create a stronger, more connected arts ecosystem for the next generation.              </p>
             </div>
-            <button
-              onClick={() => onNavigate('donate')}
-              className="mt-8 inline-flex items-center gap-2 px-7 py-3.5 bg-amber-600 text-white font-semibold rounded-full hover:bg-amber-700 transition-colors"
-            >
-              Support Our Work <ArrowRight size={16} />
-            </button>
+            <p className="mt-8 text-stone-700 font-semibold">
+              — Eric C. Pinto-Panizales, Founder
+            </p>
           </div>
         </div>
       </section>

@@ -76,7 +76,7 @@ export default function App() {
       {isPublic && <Header currentPage={page} onNavigate={navigate} />}
       <main className="flex-1">
         {page === 'home' && <Home onNavigate={navigate} />}
-        {page === 'about' && <About onNavigate={navigate} />}
+        {page === 'about' && <About />}
         {page === 'events' && <Events />}
         {page === 'donate' && <Donate />}
         {page === 'login' && <Login onNavigate={navigate} />}
