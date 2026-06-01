@@ -29,18 +29,18 @@ export default function Home({ onNavigate }: HomeProps) {
   const features = [
     {
       icon: <Music size={22} className="text-amber-600" />,
-      title: 'Instruments',
-      desc: 'Quality instruments sourced from generous donors and professionally restored to school-ready condition.',
+      title: 'Connect and Build Arts Communities',
+      desc: 'Artists, nonprofits, and communities are brought together through collaborative events, performances, and networking opportunities.',
     },
     {
       icon: <Heart size={22} className="text-amber-600" />,
-      title: 'Funding',
-      desc: 'Financial contributions cover reeds, strings, bows, and ongoing program expansion across districts.',
+      title: 'Support and Strengthen Music Programs',
+      desc: 'Sustainable music programs are developed by modernizing ensembles through technology, upgraded equipment, and expanded performance opportunities.',
     },
     {
       icon: <School size={22} className="text-amber-600" />,
       title: 'Partnerships',
-      desc: 'We work directly with school music directors to identify and serve students with the greatest need.',
+      desc: 'Partnerships are established with schools to provide high-quality afterschool programs where students are given the space and support to fully explore and develop their passions.',
     },
   ];
 
