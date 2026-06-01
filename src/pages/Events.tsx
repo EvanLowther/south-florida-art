@@ -4,13 +4,14 @@ import SpringShowcase1 from '../assets/images/SpringShowcase1.jpg';
 import BOB1 from '../assets/images/BOB1.jpg';
 import YMF1 from '../assets/images/YMF1.jpeg';
 import EventsMain from '../assets/images/EventsMain.jpg';
+import makerfair from '../assets/images/makerfair.jpg';
 
 export default function Events() {
   const events = [
     {
       title: 'Maker Faire Miami',
       date: 'December 5–6, 2026',
-      image: 'https://images.pexels.com/photos/7868889/pexels-photo-7868889.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      image: makerfair,
       description:
         'An interactive showcase of invention, creativity, and resourcefulness. Maker Faire Miami brings together tech enthusiasts, artists, engineers, and students to exhibit DIY projects, robotics, interactive installations, and hands-on workshops. A family-friendly event celebrating the maker spirit and STEM education.',
       location: '10901 SW 24th St, Miami, FL 33165',
