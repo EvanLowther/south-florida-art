@@ -8,6 +8,30 @@ import EventsMain from '../assets/images/EventsMain.jpg';
 export default function Events() {
   const events = [
     {
+      title: 'Maker Faire Miami',
+      date: 'December 5–6, 2026',
+      image: 'https://images.pexels.com/photos/7868889/pexels-photo-7868889.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      description:
+        'An interactive showcase of invention, creativity, and resourcefulness. Maker Faire Miami brings together tech enthusiasts, artists, engineers, and students to exhibit DIY projects, robotics, interactive installations, and hands-on workshops. A family-friendly event celebrating the maker spirit and STEM education.',
+      location: '10901 SW 24th St, Miami, FL 33165',
+    },
+    {
+      title: 'South Dade Youth Music Festival',
+      date: 'November 14, 2026',
+      image: 'https://images.pexels.com/photos/7095737/pexels-photo-7095737.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      description:
+        'The South Dade Youth Music Festival brings together student musicians from across South Dade County for a day of live performances, workshops, and collaborative showcases. From classical ensembles to modern bands, the event highlights the rich musical diversity of the region\'s youth.',
+      location: 'South Dade, FL',
+    },
+    {
+      title: 'Miami Gardens Youth Music Festival',
+      date: 'October 18, 2026',
+      image: 'https://images.pexels.com/photos/8512201/pexels-photo-8512201.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      description:
+        'A high-energy celebration of young musical talent from the Miami Gardens community. Featuring student bands, solo performers, and ensemble acts spanning hip-hop, jazz, gospel, and Latin rhythms, the festival provides a platform for emerging artists to share their craft with the community.',
+      location: 'Miami Gardens, FL',
+    },
+    {
       title: 'FIU Battle of the Bands',
       date: 'March 28, 2026',
       image: BOB1,
@@ -38,30 +62,6 @@ export default function Events() {
       description:
         'The Miami Beach Youth Music Festival is an annual community event showcasing the musical talents of young, local South Florida artists. Hosted by the City of Miami Beach, the festival highlights students and young bands performing everything from rock and pop to jazz and classical music.',
       location: '7275 Collins Avenue, Miami Beach, FL 33141',
-    },
-    {
-      title: 'Miami Gardens Youth Music Festival',
-      date: 'October 18, 2026',
-      image: 'https://images.pexels.com/photos/8512201/pexels-photo-8512201.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      description:
-        'A high-energy celebration of young musical talent from the Miami Gardens community. Featuring student bands, solo performers, and ensemble acts spanning hip-hop, jazz, gospel, and Latin rhythms, the festival provides a platform for emerging artists to share their craft with the community.',
-      location: 'Miami Gardens, FL',
-    },
-    {
-      title: 'South Dade Youth Music Festival',
-      date: 'November 14, 2026',
-      image: 'https://images.pexels.com/photos/7095737/pexels-photo-7095737.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      description:
-        'The South Dade Youth Music Festival brings together student musicians from across South Dade County for a day of live performances, workshops, and collaborative showcases. From classical ensembles to modern bands, the event highlights the rich musical diversity of the region\'s youth.',
-      location: 'South Dade, FL',
-    },
-    {
-      title: 'Maker Faire Miami',
-      date: 'December 5–6, 2026',
-      image: 'https://images.pexels.com/photos/7868889/pexels-photo-7868889.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      description:
-        'An interactive showcase of invention, creativity, and resourcefulness. Maker Faire Miami brings together tech enthusiasts, artists, engineers, and students to exhibit DIY projects, robotics, interactive installations, and hands-on workshops. A family-friendly event celebrating the maker spirit and STEM education.',
-      location: '10901 SW 24th St, Miami, FL 33165',
     },
   ];
 
