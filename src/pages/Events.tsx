@@ -5,6 +5,8 @@ import BOB1 from '../assets/images/BOB1.jpg';
 import YMF1 from '../assets/images/YMF1.jpeg';
 import EventsMain from '../assets/images/EventsMain.jpg';
 import makerfair from '../assets/images/makerfair.jpg';
+import miamiGardens from '../assets/images/miami-gardens.jpg';
+import southDade from '../assets/images/south-dade.jpg';
 
 export default function Events() {
   const events = [
@@ -19,7 +21,7 @@ export default function Events() {
     {
       title: 'South Dade Youth Music Festival',
       date: 'November 14, 2026',
-      image: 'https://images.pexels.com/photos/7095737/pexels-photo-7095737.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      image: southDade,
       description:
         'The South Dade Youth Music Festival brings together student musicians from across South Dade County for a day of live performances, workshops, and collaborative showcases. From classical ensembles to modern bands, the event highlights the rich musical diversity of the region\'s youth.',
       location: 'South Dade, FL',
@@ -27,7 +29,7 @@ export default function Events() {
     {
       title: 'Miami Gardens Youth Music Festival',
       date: 'October 18, 2026',
-      image: 'https://images.pexels.com/photos/8512201/pexels-photo-8512201.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      image: miamiGardens,
       description:
         'A high-energy celebration of young musical talent from the Miami Gardens community. Featuring student bands, solo performers, and ensemble acts spanning hip-hop, jazz, gospel, and Latin rhythms, the festival provides a platform for emerging artists to share their craft with the community.',
       location: 'Miami Gardens, FL',
