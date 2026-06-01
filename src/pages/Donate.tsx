@@ -216,11 +216,10 @@ export default function Donate() {
                   type="text"
                   inputMode="numeric"
                   placeholder="Enter amount"
-                  value={customAmount}
+                  value={customAmount ? Number(customAmount.replace(/,/g, '')).toLocaleString() : ''}
                   onChange={(e) => {
-                    const raw = e.target.value.replace(/[^0-9,]/g, '');
-                    const cleaned = raw.replace(/,{2,}/g, ',').replace(/^,|,$/g, '');
-                    setCustomAmount(cleaned);
+                    const digits = e.target.value.replace(/[^0-9]/g, '');
+                    setCustomAmount(digits);
                     setSelectedAmount(null);
                   }}
                   className="w-full pl-8 pr-4 py-3 border border-stone-200 rounded-xl text-stone-900 focus:outline-none focus:border-amber-500 transition-colors text-sm"
@@ -243,7 +242,7 @@ export default function Donate() {
 
             <button 
               onClick={() => {
-                const amount = selectedAmount ?? (customAmount ? parseInt(customAmount.replace(/,/g, ''), 10) : null);
+                const amount = selectedAmount ?? (customAmount ? parseInt(customAmount, 10) : null);
                 if (amount && amount > 0) {
                   handleDonation(amount);
                 } else {
