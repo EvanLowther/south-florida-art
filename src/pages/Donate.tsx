@@ -213,12 +213,14 @@ export default function Donate() {
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 font-medium">$</span>
                 <input
-                  type="number"
-                  min="1"
+                  type="text"
+                  inputMode="numeric"
                   placeholder="Enter amount"
                   value={customAmount}
                   onChange={(e) => {
-                    setCustomAmount(e.target.value);
+                    const raw = e.target.value.replace(/[^0-9,]/g, '');
+                    const cleaned = raw.replace(/,{2,}/g, ',').replace(/^,|,$/g, '');
+                    setCustomAmount(cleaned);
                     setSelectedAmount(null);
                   }}
                   className="w-full pl-8 pr-4 py-3 border border-stone-200 rounded-xl text-stone-900 focus:outline-none focus:border-amber-500 transition-colors text-sm"
@@ -241,7 +243,7 @@ export default function Donate() {
 
             <button 
               onClick={() => {
-                const amount = selectedAmount ?? (customAmount ? parseInt(customAmount, 10) : null);
+                const amount = selectedAmount ?? (customAmount ? parseInt(customAmount.replace(/,/g, ''), 10) : null);
                 if (amount && amount > 0) {
                   handleDonation(amount);
                 } else {
