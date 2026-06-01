@@ -16,7 +16,7 @@ export default function Events() {
       location: 'Parkview Turf, 11200 SW 8th St, Miami, FL 33199',
     },
     {
-      title: 'Miami Beach Schools Spring Arts Showcase 2025',
+      title: 'Miami Beach Schools Spring Arts Showcase',
       date: 'April 26, 2025',
       image: SpringShowcase1,
       description:
