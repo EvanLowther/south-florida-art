@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { ChevronDown, LogOut, Mail, PackageOpen, Trash2 } from 'lucide-react';
+import { ChevronDown, DollarSign, LogOut, Mail, PackageOpen, Trash2 } from 'lucide-react';
 
 interface Inquiry {
   id: string;
@@ -19,7 +19,17 @@ interface Subscription {
   subscribed_at: string;
 }
 
-type Tab = 'donations' | 'emails';
+interface Donation {
+  id: string;
+  stripe_session_id: string;
+  amount: number;
+  donor_name: string | null;
+  donor_email: string | null;
+  status: string;
+  created_at: string;
+}
+
+type Tab = 'inquiries' | 'financial' | 'emails';
 
 const statusStyles: Record<string, string> = {
   new: 'bg-amber-50 text-amber-700 border-amber-200',
@@ -43,9 +53,10 @@ const statusOptions = ['new', 'contacted', 'completed', 'cancelled'];
 
 export default function Admin() {
   const { user, signOut } = useAuth();
-  const [tab, setTab] = useState<Tab>('donations');
+  const [tab, setTab] = useState<Tab>('inquiries');
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+  const [donations, setDonations] = useState<Donation[]>([]);
   const [loading, setLoading] = useState(true);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -99,7 +110,7 @@ export default function Admin() {
   };
 
   useEffect(() => {
-    if (tab === 'donations') {
+    if (tab === 'inquiries') {
       setLoading(true);
       supabase
         .from('instrument_inquiries')
@@ -107,6 +118,16 @@ export default function Admin() {
         .order('created_at', { ascending: false })
         .then(({ data, error }) => {
           if (!error && data) setInquiries(data as Inquiry[]);
+          setLoading(false);
+        });
+    } else if (tab === 'financial') {
+      setLoading(true);
+      supabase
+        .from('donations')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .then(({ data, error }) => {
+          if (!error && data) setDonations(data as Donation[]);
           setLoading(false);
         });
     } else {
@@ -141,15 +162,26 @@ export default function Admin() {
 
         <div className="flex gap-2 mb-8">
           <button
-            onClick={() => setTab('donations')}
+            onClick={() => setTab('inquiries')}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
-              tab === 'donations'
+              tab === 'inquiries'
                 ? 'bg-amber-600 text-white'
                 : 'bg-white border border-stone-200 text-stone-600 hover:border-amber-500 hover:text-amber-600'
             }`}
           >
             <PackageOpen size={16} />
-            Donation Inquiries
+            Instrument Inquiries
+          </button>
+          <button
+            onClick={() => setTab('financial')}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+              tab === 'financial'
+                ? 'bg-amber-600 text-white'
+                : 'bg-white border border-stone-200 text-stone-600 hover:border-amber-500 hover:text-amber-600'
+            }`}
+          >
+            <DollarSign size={16} />
+            Financial Donations
           </button>
           <button
             onClick={() => setTab('emails')}
@@ -166,9 +198,9 @@ export default function Admin() {
 
         {loading ? (
           <div className="text-center py-20 text-stone-400 text-sm">Loading...</div>
-        ) : tab === 'donations' ? (
+        ) : tab === 'inquiries' ? (
           inquiries.length === 0 ? (
-            <div className="text-center py-20 text-stone-400 text-sm">No donation inquiries yet.</div>
+            <div className="text-center py-20 text-stone-400 text-sm">No instrument inquiries yet.</div>
           ) : (
             <div className="space-y-4">
               {inquiries.map((inq) => (
@@ -240,6 +272,39 @@ export default function Admin() {
                   </div>
                 </div>
               ))}
+            </div>
+          )
+        ) : tab === 'financial' ? (
+          donations.length === 0 ? (
+            <div className="text-center py-20 text-stone-400 text-sm">No financial donations yet.</div>
+          ) : (
+            <div className="bg-white rounded-2xl border border-stone-100 shadow-sm overflow-hidden">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-stone-100">
+                    <th className="text-left px-6 py-4 font-semibold text-stone-700">#</th>
+                    <th className="text-left px-6 py-4 font-semibold text-stone-700">Name</th>
+                    <th className="text-left px-6 py-4 font-semibold text-stone-700">Email</th>
+                    <th className="text-right px-6 py-4 font-semibold text-stone-700">Amount</th>
+                    <th className="text-right px-6 py-4 font-semibold text-stone-700">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {donations.map((d, i) => (
+                    <tr key={d.id} className="border-b border-stone-50 last:border-0">
+                      <td className="px-6 py-4 text-stone-400">{i + 1}</td>
+                      <td className="px-6 py-4 text-stone-900">{d.donor_name ?? '—'}</td>
+                      <td className="px-6 py-4 text-stone-600">{d.donor_email ?? '—'}</td>
+                      <td className="px-6 py-4 text-right font-semibold text-emerald-600">
+                        ${(d.amount / 100).toFixed(2)}
+                      </td>
+                      <td className="px-6 py-4 text-right text-stone-500">
+                        {formatDate(d.created_at)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )
         ) : subscriptions.length === 0 ? (
