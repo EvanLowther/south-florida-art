@@ -274,7 +274,7 @@ export default function Donate() {
               <ul className="list-disc list-inside space-y-1 text-stone-500">
                 <li>Band and orchestral instruments in playable or repairable condition</li>
                 <li>Cases, bows, mouthpieces, and accessories welcome</li>
-                <li>No instruments that require complete structural rebuilds</li>
+                <li>Broken/unrepairable instruments accepted</li>
               </ul>
               
             </div>
