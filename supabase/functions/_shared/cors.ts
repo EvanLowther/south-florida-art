@@ -5,6 +5,7 @@ const ALLOWED_ORIGINS = [
 
 const CORS_HEADERS_BASE = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': '*',
 }
 
 export function getCorsHeaders(req: Request): Record<string, string> {
