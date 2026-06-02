@@ -59,7 +59,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
             onClick={() => onNavigate('donate')}
             className="ml-2 px-5 py-2 bg-amber-600 text-white text-sm font-medium rounded-full hover:bg-amber-700 transition-colors"
           >
-            Give Now
+            Donate
           </button>
         </nav>
 
@@ -88,7 +88,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
             onClick={() => { onNavigate('donate'); setMobileOpen(false); }}
             className="w-full py-2.5 bg-amber-600 text-white text-sm font-medium rounded-full hover:bg-amber-700 transition-colors"
           >
-            Give Now
+            Donate
           </button>
         </div>
       )}

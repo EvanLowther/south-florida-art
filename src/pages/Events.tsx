@@ -12,7 +12,7 @@ export default function Events() {
   const events = [
     {
       title: 'Maker Faire Miami',
-      date: 'December 5–6, 2026',
+      date: 'April, Annually',
       image: makerfair,
       description:
         'An interactive showcase of invention, creativity, and resourcefulness. Maker Faire Miami brings together tech enthusiasts, artists, engineers, and students to exhibit DIY projects, robotics, interactive installations, and hands-on workshops. A family-friendly event celebrating the maker spirit and STEM education.',
@@ -20,7 +20,7 @@ export default function Events() {
     },
     {
       title: 'South Dade Youth Music Festival',
-      date: 'November 14, 2026',
+      date: 'March, Annually',
       image: southDade,
       description:
         'The South Dade Youth Music Festival brings together student musicians from across South Dade County for a day of live performances, workshops, and collaborative showcases. From classical ensembles to modern bands, the event highlights the rich musical diversity of the region\'s youth.',
@@ -28,7 +28,7 @@ export default function Events() {
     },
     {
       title: 'Miami Gardens Youth Music Festival',
-      date: 'October 18, 2026',
+      date: 'February, Annually',
       image: miamiGardens,
       description:
         'A high-energy celebration of young musical talent from the Miami Gardens community. Featuring student bands, solo performers, and ensemble acts spanning hip-hop, jazz, gospel, and Latin rhythms, the festival provides a platform for emerging artists to share their craft with the community.',
@@ -36,7 +36,7 @@ export default function Events() {
     },
     {
       title: 'FIU Battle of the Bands',
-      date: 'March 28, 2026',
+      date: 'Fall, Spring, Annually',
       image: BOB1,
       description:
         'Florida International University\'s annual battle of the bands competition, co-presented by the South Florida Arts Foundation. Student bands compete for studio time, equipment grants, and the chance to perform at our Miami Beach showcases.',
@@ -44,7 +44,7 @@ export default function Events() {
     },
     {
       title: 'Miami Beach Schools Spring Arts Showcase',
-      date: 'April 26, 2025',
+      date: 'March, Annually',
       image: SpringShowcase1,
       description:
         'A vibrant spring celebration of music, dance, and visual arts featuring students from Miami Beach public schools. Proceeds from the event supported continued arts programming and instrument maintenance for the following academic year.',
@@ -52,7 +52,7 @@ export default function Events() {
     },
     {
       title: 'Miami Beach Schools Holiday Showcase',
-      date: 'January 18, 2025',
+      date: 'December, Annually',
       image: WinterShowcase1,
       description:
         'An afternoon of winter-themed performances by student musicians from Miami Beach-area schools. The showcase highlighted the impact of our instrument donation program and featured special guest artists from the South Florida music community.',
@@ -60,7 +60,7 @@ export default function Events() {
     },
     {
       title: 'Miami Beach Youth Music Festival',
-      date: '2023–2024 Season',
+      date: 'March, Annually',
       image: YMF1,
       description:
         'The Miami Beach Youth Music Festival is an annual community event showcasing the musical talents of young, local South Florida artists. Hosted by the City of Miami Beach, the festival highlights students and young bands performing everything from rock and pop to jazz and classical music.',
