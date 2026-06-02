@@ -11,38 +11,6 @@ import southDade from '../assets/images/south-dade.jpg';
 export default function Events() {
   const events = [
     {
-      title: 'Maker Faire Miami',
-      date: 'April, Annually',
-      image: makerfair,
-      description:
-        'An interactive showcase of invention, creativity, and resourcefulness. Maker Faire Miami brings together tech enthusiasts, artists, engineers, and students to exhibit DIY projects, robotics, interactive installations, and hands-on workshops. A family-friendly event celebrating the maker spirit and STEM education.',
-      location: '10901 SW 24th St, Miami, FL 33165',
-    },
-    {
-      title: 'South Dade Youth Music Festival',
-      date: 'March, Annually',
-      image: southDade,
-      description:
-        'The South Dade Youth Music Festival brings together student musicians from across South Dade County for a day of live performances, workshops, and collaborative showcases. From classical ensembles to modern bands, the event highlights the rich musical diversity of the region\'s youth.',
-      location: 'South Dade, FL',
-    },
-    {
-      title: 'Miami Gardens Youth Music Festival',
-      date: 'February, Annually',
-      image: miamiGardens,
-      description:
-        'A high-energy celebration of young musical talent from the Miami Gardens community. Featuring student bands, solo performers, and ensemble acts spanning hip-hop, jazz, gospel, and Latin rhythms, the festival provides a platform for emerging artists to share their craft with the community.',
-      location: 'Miami Gardens, FL',
-    },
-    {
-      title: 'FIU Battle of the Bands',
-      date: 'Fall, Spring, Annually',
-      image: BOB1,
-      description:
-        'Florida International University\'s annual battle of the bands competition, co-presented by the South Florida Arts Foundation. Student bands compete for studio time, equipment grants, and the chance to perform at our Miami Beach showcases.',
-      location: 'Parkview Turf, 11200 SW 8th St, Miami, FL 33199',
-    },
-    {
       title: 'Miami Beach Schools Spring Arts Showcase',
       date: 'March, Annually',
       image: SpringShowcase1,
@@ -59,12 +27,44 @@ export default function Events() {
       location: '660 Lincoln Rd, Miami Beach, FL 33139',
     },
     {
+      title: 'FIU Battle of the Bands',
+      date: 'Fall, Spring, Annually',
+      image: BOB1,
+      description:
+        'Florida International University\'s annual battle of the bands competition, co-presented by the South Florida Arts Foundation. Student bands compete for studio time, equipment grants, and the chance to perform at our Miami Beach showcases.',
+      location: 'Parkview Turf, 11200 SW 8th St, Miami, FL 33199',
+    },
+    {
+      title: 'Maker Faire Miami',
+      date: 'April, Annually',
+      image: makerfair,
+      description:
+        'An interactive showcase of invention, creativity, and resourcefulness. Maker Faire Miami brings together tech enthusiasts, artists, engineers, and students to exhibit DIY projects, robotics, interactive installations, and hands-on workshops. A family-friendly event celebrating the maker spirit and STEM education.',
+      location: '10901 SW 24th St, Miami, FL 33165',
+    },
+    {
       title: 'Miami Beach Youth Music Festival',
       date: 'March, Annually',
       image: YMF1,
       description:
         'The Miami Beach Youth Music Festival is an annual community event showcasing the musical talents of young, local South Florida artists. Hosted by the City of Miami Beach, the festival highlights students and young bands performing everything from rock and pop to jazz and classical music.',
       location: '7275 Collins Avenue, Miami Beach, FL 33141',
+    },
+    {
+      title: 'South Dade Youth Music Festival',
+      date: 'March, Annually',
+      image: southDade,
+      description:
+        'The South Dade Youth Music Festival brings together student musicians from across South Dade County for a day of live performances, workshops, and collaborative showcases. From classical ensembles to modern bands, the event highlights the rich musical diversity of the region\'s youth.',
+      location: '104 N Krome Ave, Homestead, FL 33030',
+    },
+    {
+      title: 'Miami Gardens Youth Music Festival',
+      date: 'February, Annually',
+      image: miamiGardens,
+      description:
+        'A high-energy celebration of young musical talent from the Miami Gardens community. Featuring student bands, solo performers, and ensemble acts spanning hip-hop, jazz, gospel, and Latin rhythms, the festival provides a platform for emerging artists to share their craft with the community.',
+      location: '3000 NW 199th St, Miami Gardens, FL 33056',
     },
   ];
 

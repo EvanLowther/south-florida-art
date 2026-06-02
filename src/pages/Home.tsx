@@ -53,7 +53,7 @@ export default function Home({ onNavigate }: HomeProps) {
     { name: "Young Men's Preparatory Academy", logo: youngMens },
     { name: 'North Beach Elementary', logo: northBeach },
     { name: 'Dream Machine', logo: dreamMachine },
-    { name: 'JAM', logo: jam },
+    { name: 'FIU Jam Collective', logo: jam },
     { name: 'Lincoln Road', logo: lincolnRd },
     { name: 'Maker Faire', logo: makerfaire },
     { name: 'Wynwood School of Music', logo: wynwoodSOM },
