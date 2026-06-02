@@ -37,6 +37,7 @@ export default function AdminEvents() {
   const [error, setError] = useState('');
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [movingId, setMovingId] = useState<string | null>(null);
+  const [actionError, setActionError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const loadEvents = useCallback(() => {
@@ -96,8 +97,8 @@ export default function AdminEvents() {
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      setError('Image must be under 5MB.');
+    if (file.size > 25 * 1024 * 1024) {
+      setError('Image must be under 25MB.');
       return;
     }
 
@@ -270,9 +271,15 @@ export default function AdminEvents() {
 
       if (response.ok) {
         loadEvents();
+      } else {
+        const data = await response.json().catch(() => ({}));
+        setActionError(data.error || 'Failed to reorder event.');
+        setTimeout(() => setActionError(''), 4000);
       }
     } catch (err) {
       console.error('Reorder error:', err);
+      setActionError('Network error. Please try again.');
+      setTimeout(() => setActionError(''), 4000);
     }
 
     setMovingId(null);
@@ -293,7 +300,7 @@ export default function AdminEvents() {
       const response = await fetch(
         `${SUPABASE_URL}/functions/v1/admin-delete-event`,
         {
-          method: 'DELETE',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
@@ -305,9 +312,15 @@ export default function AdminEvents() {
 
       if (response.ok) {
         loadEvents();
+      } else {
+        const data = await response.json().catch(() => ({}));
+        setActionError(data.error || 'Failed to delete event.');
+        setTimeout(() => setActionError(''), 4000);
       }
     } catch (err) {
       console.error('Delete error:', err);
+      setActionError('Network error. Please try again.');
+      setTimeout(() => setActionError(''), 4000);
     }
 
     setDeletingId(null);
@@ -327,6 +340,12 @@ export default function AdminEvents() {
           Add Event
         </button>
       </div>
+
+      {actionError && (
+        <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3 mb-4">
+          {actionError}
+        </div>
+      )}
 
       {loading ? (
         <div className="text-center py-12 text-stone-400 text-sm">Loading events...</div>
@@ -500,7 +519,7 @@ export default function AdminEvents() {
                   >
                     <ImagePlus size={28} />
                     <span className="text-sm font-medium">Click to upload image</span>
-                    <span className="text-xs">PNG or JPG, max 5MB</span>
+                    <span className="text-xs">PNG or JPG, max 25MB</span>
                   </button>
                 )}
               </div>
