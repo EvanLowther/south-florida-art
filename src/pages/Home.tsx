@@ -80,7 +80,7 @@ export default function Home({ onNavigate }: HomeProps) {
               501(c)(3) Non-Profit Organization
             </span>
             <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight mb-6">
-              Every child deserves a stage. No student should be silenced by a price tag.
+              Where arts education, opportunity, and community come together.
             </h1>
             <p className="text-lg text-stone-300 leading-relaxed mb-10 max-w-lg">
               Providing instruments and musical education support to students who need it most.
