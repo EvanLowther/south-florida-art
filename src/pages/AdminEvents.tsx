@@ -202,7 +202,7 @@ export default function AdminEvents() {
         const response = await fetch(
           `${SUPABASE_URL}/functions/v1/admin-update-event`,
           {
-            method: 'PATCH',
+            method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`,
@@ -259,7 +259,7 @@ export default function AdminEvents() {
       const response = await fetch(
         `${SUPABASE_URL}/functions/v1/admin-reorder-events`,
         {
-          method: 'PUT',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
