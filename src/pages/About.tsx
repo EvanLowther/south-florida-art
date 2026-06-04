@@ -1,6 +1,7 @@
 import { FileText } from 'lucide-react';
 import aboutFirst from '../assets/images/AboutPageImagefirsthalf.jpg';
 import aboutSecond from '../assets/images/AboutPageImageSecondhalf.jpg';
+import aboutHeader from '../assets/images/aboutpage.jpg';
 import ericP from '../assets/images/Eric.jpg';
 import irs501c3 from '../assets/documents/IRS 501c3 Tax Exemption.pdf';
 import form990 from '../assets/documents/Form 990 2024-2025.pdf';
@@ -36,7 +37,7 @@ export default function About() {
       {/* Page Header */}
       <section className="relative pt-32 pb-20 bg-stone-900 overflow-hidden">
         <img
-          src="https://images.pexels.com/photos/164936/pexels-photo-164936.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          src={aboutHeader}
           alt="Orchestra performance"
           className="absolute inset-0 w-full h-full object-cover opacity-25"
         />
