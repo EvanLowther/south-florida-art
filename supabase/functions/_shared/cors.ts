@@ -1,6 +1,8 @@
 const ALLOWED_ORIGINS = [
   'http://localhost:5173',
   'https://south-florida-art.vercel.app',
+  'https://sofloartsfoundation.org',
+  'https://www.sofloartsfoundation.org',
 ]
 
 const CORS_HEADERS_BASE = {
