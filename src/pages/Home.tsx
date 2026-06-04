@@ -87,7 +87,7 @@ export default function Home({ onNavigate }: HomeProps) {
               Where arts education, opportunity, and community come together.
             </h1>
             <p className="text-lg text-stone-300 leading-relaxed mb-10 max-w-lg">
-              Providing instruments and musical education support to students who need it most.
+              Expanding access to arts education, strengthening programs, and creating opportunities for young artists to grow.
             </p>
             <div className="flex flex-wrap gap-4">
               <button
