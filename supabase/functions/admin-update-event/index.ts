@@ -34,10 +34,37 @@ serve(async (req) => {
     }
 
     const updates: Record<string, string | boolean> = {}
-    if (title !== undefined) updates.title = title.trim().slice(0, 255)
+    if (title !== undefined) {
+      const t = title.trim()
+      if (t.length > 255) {
+        return new Response(JSON.stringify({ error: 'Title exceeds 255 characters' }), {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        })
+      }
+      updates.title = t
+    }
     if (date !== undefined) updates.date = date.trim().slice(0, 100)
-    if (description !== undefined) updates.description = description.trim().slice(0, 2000)
-    if (location !== undefined) updates.location = location.trim().slice(0, 500)
+    if (description !== undefined) {
+      const d = description.trim()
+      if (d.length > 2000) {
+        return new Response(JSON.stringify({ error: 'Description exceeds 2000 characters' }), {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        })
+      }
+      updates.description = d
+    }
+    if (location !== undefined) {
+      const l = location.trim()
+      if (l.length > 500) {
+        return new Response(JSON.stringify({ error: 'Location exceeds 500 characters' }), {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        })
+      }
+      updates.location = l
+    }
     if (image_url !== undefined) {
       const trimmedUrl = image_url.trim()
       const validImageRegex = /^data:image\/(jpeg|png|webp|gif);base64,/

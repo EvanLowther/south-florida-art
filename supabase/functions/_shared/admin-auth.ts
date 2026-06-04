@@ -25,5 +25,15 @@ export async function verifyAdmin(req: Request): Promise<{ id: string; email: st
     throw new AuthError('Unauthorized')
   }
 
+  const userEmail = user.email?.toLowerCase()
+  if (!userEmail) {
+    throw new AuthError('No email on account')
+  }
+
+  const adminEmails = (Deno.env.get('ADMIN_EMAILS') || '').split(',').map(e => e.trim().toLowerCase()).filter(Boolean)
+  if (adminEmails.length > 0 && !adminEmails.includes(userEmail)) {
+    throw new AuthError('Not authorized as admin')
+  }
+
   return { id: user.id, email: user.email }
 }

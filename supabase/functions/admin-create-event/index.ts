@@ -35,9 +35,24 @@ serve(async (req) => {
 
     const trimmed = { title: title.trim(), date: date.trim(), description: description.trim(), location: location.trim(), image_url: image_url.trim() }
 
-    if (trimmed.title.length > 255) trimmed.title = trimmed.title.slice(0, 255)
-    if (trimmed.description.length > 2000) trimmed.description = trimmed.description.slice(0, 2000)
-    if (trimmed.location.length > 500) trimmed.location = trimmed.location.slice(0, 500)
+    if (trimmed.title.length > 255) {
+      return new Response(JSON.stringify({ error: 'Title exceeds 255 characters' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+    if (trimmed.description.length > 2000) {
+      return new Response(JSON.stringify({ error: 'Description exceeds 2000 characters' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+    if (trimmed.location.length > 500) {
+      return new Response(JSON.stringify({ error: 'Location exceeds 500 characters' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
 
     const validImageRegex = /^data:image\/(jpeg|png|webp|gif);base64,/
     if (!validImageRegex.test(trimmed.image_url)) {

@@ -10,7 +10,10 @@ const CORS_HEADERS_BASE = {
 
 export function getCorsHeaders(req: Request): Record<string, string> {
   const origin = req.headers.get('origin') || ''
-  const allowed = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0]
+  const allowed = ALLOWED_ORIGINS.includes(origin) ? origin : ''
+  if (!allowed) {
+    return { ...CORS_HEADERS_BASE }
+  }
   return {
     ...CORS_HEADERS_BASE,
     'Access-Control-Allow-Origin': allowed,

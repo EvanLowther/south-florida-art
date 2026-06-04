@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+
 interface Signup {
   id: string;
   event_id: string;
@@ -15,6 +17,25 @@ interface Event {
   title: string;
 }
 
+async function adminFetch(action: string, body: Record<string, unknown> = {}) {
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = session?.access_token;
+  if (!token) throw new Error('Not authenticated');
+
+  const res = await fetch(`${SUPABASE_URL}/functions/v1/admin-data`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({ action, ...body }),
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
 export default function AdminSignups() {
   const [signups, setSignups] = useState<Signup[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
@@ -24,24 +45,14 @@ export default function AdminSignups() {
   const loadData = useCallback(() => {
     setLoading(true);
 
-    const eventPromise = supabase
-      .from('events')
-      .select('id, title')
-      .eq('has_signup_button', true)
-      .order('sort_order', { ascending: true })
-      .then(({ data }) => data as Event[] || []);
-
-    const signupPromise = supabase
-      .from('event_signups')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .then(({ data }) => data as Signup[] || []);
-
-    Promise.all([eventPromise, signupPromise]).then(([eventsData, signupsData]) => {
-      setEvents(eventsData);
-      setSignups(signupsData);
+    Promise.all([
+      adminFetch('get_events'),
+      adminFetch('get_signups'),
+    ]).then(([eventsData, signupsData]) => {
+      setEvents(eventsData.data as Event[]);
+      setSignups(signupsData.data as Signup[]);
       setLoading(false);
-    });
+    }).catch(() => setLoading(false));
   }, []);
 
   useEffect(() => {

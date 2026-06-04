@@ -8,6 +8,8 @@ import {
 import AdminEvents from './AdminEvents';
 import AdminSignups from './AdminSignups';
 
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+
 interface Inquiry {
   id: string;
   name: string;
@@ -71,6 +73,25 @@ const sidebarItems: { tab: Tab; label: string; icon: React.ReactNode }[] = [
   { tab: 'emails', label: 'Newsletter Subscriptions', icon: <Mail size={18} /> },
 ];
 
+async function adminFetch(action: string, body: Record<string, unknown> = {}) {
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = session?.access_token;
+  if (!token) throw new Error('Not authenticated');
+
+  const res = await fetch(`${SUPABASE_URL}/functions/v1/admin-data`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({ action, ...body }),
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
 export default function Admin() {
   const { user, signOut } = useAuth();
   const [tab, setTab] = useState<Tab>('dashboard');
@@ -81,10 +102,18 @@ export default function Admin() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const [adminCheckDone, setAdminCheckDone] = useState(false);
+  const [adminAuthorized, setAdminAuthorized] = useState(false);
 
-  // Dashboard stats
   const [eventCount, setEventCount] = useState(0);
   const [signupCount, setSignupCount] = useState(0);
+
+  useEffect(() => {
+    adminFetch('check')
+      .then(() => setAdminAuthorized(true))
+      .catch(() => setAdminAuthorized(false))
+      .finally(() => setAdminCheckDone(true));
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -102,11 +131,9 @@ export default function Admin() {
       prevInq.map((i) => (i.id === id ? { ...i, status } : i))
     );
     setOpenDropdown(null);
-    const { error } = await supabase
-      .from('instrument_inquiries')
-      .update({ status })
-      .eq('id', id);
-    if (error) {
+    try {
+      await adminFetch('update_inquiry_status', { id, status });
+    } catch {
       setInquiries((prevInq) =>
         prevInq.map((i) => (i.id === id ? { ...i, status: prev ?? i.status } : i))
       );
@@ -120,79 +147,92 @@ export default function Admin() {
     if (!window.confirm(msg)) return;
 
     setDeletingId(id);
+    const action = table === 'instrument_inquiries' ? 'delete_inquiry' : 'delete_subscription';
     if (table === 'instrument_inquiries') {
       setInquiries((prev) => prev.filter((i) => i.id !== id));
     } else {
       setSubscriptions((prev) => prev.filter((s) => s.id !== id));
     }
 
-    const { error } = await supabase.from(table).delete().eq('id', id);
-    if (error) {
-      location.reload();
+    try {
+      await adminFetch(action, { id });
+    } catch {
+      window.location.reload();
     }
     setDeletingId(null);
   };
 
   const loadData = useCallback(() => {
-    if (tab === 'inquiries') {
-      setLoading(true);
-      supabase
-        .from('instrument_inquiries')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .then(({ data, error }) => {
-          if (!error && data) setInquiries(data as Inquiry[]);
-          setLoading(false);
-        });
-    } else if (tab === 'financial') {
-      setLoading(true);
-      supabase
-        .from('donations')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .then(({ data, error }) => {
-          if (!error && data) setDonations(data as Donation[]);
-          setLoading(false);
-        });
-    } else if (tab === 'dashboard') {
-      setLoading(true);
+    setLoading(true);
+
+    if (tab === 'dashboard') {
       Promise.all([
-        supabase.from('events').select('*'),
-        supabase.from('event_signups').select('*'),
-        supabase.from('instrument_inquiries').select('*').order('created_at', { ascending: false }),
-        supabase.from('donations').select('*').order('created_at', { ascending: false }),
-        supabase.from('newsletter_subscriptions').select('*').order('subscribed_at', { ascending: false }),
-      ]).then(([eventsRes, signupsRes, inquiriesRes, donationsRes, subsRes]) => {
-        if (!eventsRes.error && eventsRes.data) setEventCount(eventsRes.data.length);
-        if (!signupsRes.error && signupsRes.data) setSignupCount(signupsRes.data.length);
-        if (!inquiriesRes.error && inquiriesRes.data) setInquiries(inquiriesRes.data as Inquiry[]);
-        if (!donationsRes.error && donationsRes.data) setDonations(donationsRes.data as Donation[]);
-        if (!subsRes.error && subsRes.data) setSubscriptions(subsRes.data as Subscription[]);
+        adminFetch('get_inquiries'),
+        adminFetch('get_donations'),
+        adminFetch('get_subscriptions'),
+      ]).then(([inqData, donData, subData]) => {
+        setInquiries(inqData.data as Inquiry[]);
+        setDonations(donData.data as Donation[]);
+        setSubscriptions(subData.data as Subscription[]);
+        setEventCount(0);
+        setSignupCount(0);
         setLoading(false);
-      });
+      }).catch(() => setLoading(false));
+    } else if (tab === 'inquiries') {
+      adminFetch('get_inquiries')
+        .then((res) => setInquiries(res.data as Inquiry[]))
+        .catch(() => {})
+        .finally(() => setLoading(false));
+    } else if (tab === 'financial') {
+      adminFetch('get_donations')
+        .then((res) => setDonations(res.data as Donation[]))
+        .catch(() => {})
+        .finally(() => setLoading(false));
+    } else if (tab === 'emails') {
+      adminFetch('get_subscriptions')
+        .then((res) => setSubscriptions(res.data as Subscription[]))
+        .catch(() => {})
+        .finally(() => setLoading(false));
     } else {
-      setLoading(true);
-      supabase
-        .from('newsletter_subscriptions')
-        .select('*')
-        .order('subscribed_at', { ascending: false })
-        .then(({ data, error }) => {
-          if (!error && data) setSubscriptions(data as Subscription[]);
-          setLoading(false);
-        });
+      setLoading(false);
     }
   }, [tab]);
 
   useEffect(() => {
-    loadData();
-    if (tab === 'financial') {
+    if (adminAuthorized) loadData();
+  }, [loadData, adminAuthorized]);
+
+  useEffect(() => {
+    if (tab === 'financial' && adminAuthorized) {
       const interval = setInterval(loadData, 15000);
       return () => clearInterval(interval);
     }
-  }, [loadData, tab]);
+  }, [tab, loadData, adminAuthorized]);
 
   const totalDonations = donations.reduce((sum, d) => sum + (d.status === 'completed' ? d.amount : 0), 0);
   const newInquiries = inquiries.filter(i => i.status === 'new').length;
+
+  if (!adminCheckDone) {
+    return <div className="min-h-screen bg-stone-50 flex items-center justify-center"><p className="text-stone-400 text-sm">Verifying access...</p></div>;
+  }
+
+  if (!adminAuthorized) {
+    return (
+      <div className="min-h-screen bg-stone-50 flex items-center justify-center px-6">
+        <div className="text-center max-w-sm">
+          <div className="text-4xl mb-4">🔒</div>
+          <h1 className="text-xl font-bold text-stone-900 mb-2">Access Denied</h1>
+          <p className="text-sm text-stone-500 mb-6">Your account is not authorized to access the admin panel.</p>
+          <button
+            onClick={signOut}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-stone-800 hover:bg-stone-900 text-white text-sm font-semibold rounded-xl transition-colors"
+          >
+            <LogOut size={16} /> Sign Out
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const renderContent = () => {
     if (loading) {
@@ -347,11 +387,11 @@ export default function Admin() {
                         ${(d.amount / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </td>
                       <td className="px-6 py-4 text-center">
-                        <span className={`inline-block text-xs font-medium px-2.5 py-1 rounded-full border ${donationStatusStyles[d.status] ?? 'bg-stone-50 text-stone-600 border-stone-200'}`}>
+                        <span className={`inline-block text-xs font-medium px-2.5 py-1 rounded-full border ${donationStatusStyles[d.status] ?? ''}`}>
                           {d.status.charAt(0).toUpperCase() + d.status.slice(1)}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-right text-stone-500">
+                      <td className="px-6 py-4 text-right text-stone-500 whitespace-nowrap">
                         {formatDate(d.created_at)}
                       </td>
                     </tr>
@@ -364,7 +404,7 @@ export default function Admin() {
 
       case 'emails':
         return subscriptions.length === 0 ? (
-          <div className="text-center py-20 text-stone-400 text-sm">No subscribers yet.</div>
+          <div className="text-center py-20 text-stone-400 text-sm">No newsletter subscriptions yet.</div>
         ) : (
           <div>
             <h2 className="text-lg font-bold text-stone-900 mb-4">Newsletter Subscriptions</h2>
@@ -375,7 +415,7 @@ export default function Admin() {
                     <th className="text-left px-6 py-4 font-semibold text-stone-700">#</th>
                     <th className="text-left px-6 py-4 font-semibold text-stone-700">Email</th>
                     <th className="text-right px-6 py-4 font-semibold text-stone-700">Subscribed</th>
-                    <th className="w-16"></th>
+                    <th className="text-center px-6 py-4 font-semibold text-stone-700">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -383,10 +423,10 @@ export default function Admin() {
                     <tr key={sub.id} className="border-b border-stone-50 last:border-0">
                       <td className="px-6 py-4 text-stone-400">{i + 1}</td>
                       <td className="px-6 py-4 text-stone-900">{sub.email}</td>
-                      <td className="px-6 py-4 text-right text-stone-500">
+                      <td className="px-6 py-4 text-right text-stone-500 whitespace-nowrap">
                         {formatDate(sub.subscribed_at)}
                       </td>
-                      <td className="px-6 py-4 text-right">
+                      <td className="px-6 py-4 text-center">
                         <button
                           onClick={() => handleDelete('newsletter_subscriptions', sub.id, sub.email)}
                           disabled={deletingId === sub.id}
@@ -402,24 +442,25 @@ export default function Admin() {
             </div>
           </div>
         );
+
+      default:
+        return null;
     }
   };
 
   return (
     <div className="min-h-screen bg-stone-50 flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-stone-900 text-stone-300 flex flex-col shrink-0">
-        <div className="p-6 border-b border-stone-700">
+      <aside className="w-56 bg-stone-900 text-white flex flex-col shrink-0">
+        <div className="px-5 pt-8 pb-6 border-b border-stone-800">
           <h1 className="text-lg font-bold text-white">Admin Panel</h1>
-          <p className="text-xs text-stone-500 mt-1 truncate">{user?.email}</p>
         </div>
-
-        <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+        <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
           {sidebarItems.map((item) => (
             <button
               key={item.tab}
               onClick={() => setTab(item.tab)}
-              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors text-left ${
+              className={`w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-colors text-left ${
                 tab === item.tab
                   ? 'bg-amber-600 text-white'
                   : 'text-stone-400 hover:text-white hover:bg-stone-800'
@@ -430,24 +471,24 @@ export default function Admin() {
             </button>
           ))}
         </nav>
-
-        <div className="p-3 border-t border-stone-700">
+        <div className="p-3 border-t border-stone-800">
+          <div className="flex items-center gap-2 px-3 py-2 text-xs text-stone-500 mb-2 truncate">
+            <span className="w-2 h-2 bg-emerald-500 rounded-full shrink-0" />
+            {user?.email}
+          </div>
           <button
             onClick={signOut}
-            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-stone-400 hover:text-white hover:bg-stone-800 transition-colors"
+            className="w-full flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-stone-400 hover:text-white hover:bg-stone-800 rounded-xl transition-colors"
           >
-            <LogOut size={18} />
-            Sign Out
+            <LogOut size={16} /> Sign Out
           </button>
         </div>
       </aside>
 
-      {/* Main content */}
-      <main className="flex-1 overflow-y-auto">
-        <div className="max-w-5xl mx-auto px-8 pt-24 pb-16">
-          {renderContent()}
-        </div>
-      </main>
+      {/* Content */}
+      <div className="flex-1 p-8 overflow-y-auto">
+        {renderContent()}
+      </div>
     </div>
   );
 }
