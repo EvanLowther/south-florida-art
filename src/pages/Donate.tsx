@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { CheckCircle, DollarSign, Guitar, Info } from 'lucide-react';
+import donateHeader from '../assets/images/donate.jpg';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -152,9 +153,9 @@ export default function Donate() {
       {/* Page Header */}
       <section className="relative pt-32 pb-20 bg-stone-900 overflow-hidden">
         <img
-          src="https://images.pexels.com/photos/4144923/pexels-photo-4144923.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          src={donateHeader}
           alt="Students in music class"
-          className="absolute inset-0 w-full h-full object-cover opacity-20"
+          className="absolute inset-0 w-full h-full object-cover object-[50%_25%] opacity-20"
         />
         <div className="relative max-w-6xl mx-auto px-6">
           <span className="text-amber-400 text-xs font-semibold uppercase tracking-widest">Give</span>
