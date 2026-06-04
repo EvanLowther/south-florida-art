@@ -27,6 +27,7 @@ export default function AdminSignups() {
     const eventPromise = supabase
       .from('events')
       .select('id, title')
+      .eq('has_signup_button', true)
       .order('sort_order', { ascending: true })
       .then(({ data }) => data as Event[] || []);
 
