@@ -38,7 +38,24 @@ serve(async (req) => {
     if (date !== undefined) updates.date = date.trim().slice(0, 100)
     if (description !== undefined) updates.description = description.trim().slice(0, 2000)
     if (location !== undefined) updates.location = location.trim().slice(0, 500)
-    if (image_url !== undefined) updates.image_url = image_url.trim()
+    if (image_url !== undefined) {
+      const trimmedUrl = image_url.trim()
+      const validPrefixes = ['data:image/jpeg;base64,', 'data:image/png;base64,', 'data:image/webp;base64,', 'data:image/gif;base64,']
+      if (!validPrefixes.some(prefix => trimmedUrl.startsWith(prefix))) {
+        return new Response(JSON.stringify({ error: 'Invalid image format. Accepted: JPEG, PNG, WebP, GIF' }), {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        })
+      }
+      const maxBase64Size = 3 * 1024 * 1024
+      if (trimmedUrl.length > maxBase64Size) {
+        return new Response(JSON.stringify({ error: 'Image too large. Maximum size is 2MB.' }), {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        })
+      }
+      updates.image_url = trimmedUrl
+    }
     updates.updated_at = new Date().toISOString()
 
     if (Object.keys(updates).length <= 1) {

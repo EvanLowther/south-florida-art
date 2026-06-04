@@ -24,27 +24,13 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
-    const { id, image_url } = await req.json()
+    const { id } = await req.json()
 
     if (!id) {
       return new Response(JSON.stringify({ error: 'Missing event id' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
-    }
-
-    // Delete the image from storage if provided
-    if (image_url) {
-      const storageUrl = `${supabaseUrl}/storage/v1/object/public/event-images/`
-      if (image_url.startsWith(storageUrl)) {
-        const filePath = image_url.slice(storageUrl.length)
-        const { error: storageError } = await supabase.storage
-          .from('event-images')
-          .remove([filePath])
-        if (storageError) {
-          console.error('Storage delete error:', storageError)
-        }
-      }
     }
 
     // Delete the event from the database

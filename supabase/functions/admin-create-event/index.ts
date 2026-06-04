@@ -39,6 +39,22 @@ serve(async (req) => {
     if (trimmed.description.length > 2000) trimmed.description = trimmed.description.slice(0, 2000)
     if (trimmed.location.length > 500) trimmed.location = trimmed.location.slice(0, 500)
 
+    const validPrefixes = ['data:image/jpeg;base64,', 'data:image/png;base64,', 'data:image/webp;base64,', 'data:image/gif;base64,']
+    if (!validPrefixes.some(prefix => trimmed.image_url.startsWith(prefix))) {
+      return new Response(JSON.stringify({ error: 'Invalid image format. Accepted: JPEG, PNG, WebP, GIF' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
+    const maxBase64Size = 3 * 1024 * 1024
+    if (trimmed.image_url.length > maxBase64Size) {
+      return new Response(JSON.stringify({ error: 'Image too large. Maximum size is 2MB.' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
     // Get the current max sort_order
     const { data: maxOrder } = await supabase
       .from('events')
