@@ -48,9 +48,9 @@ serve(async (req) => {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         })
       }
-      const maxBase64Size = 3 * 1024 * 1024
+      const maxBase64Size = 5 * 1024 * 1024
       if (trimmedUrl.length > maxBase64Size) {
-        return new Response(JSON.stringify({ error: 'Image too large. Maximum size is 2MB.' }), {
+        return new Response(JSON.stringify({ error: 'Image too large after encoding. Please use a smaller image.' }), {
           status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         })

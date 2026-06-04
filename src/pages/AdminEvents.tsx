@@ -97,17 +97,37 @@ export default function AdminEvents() {
       return;
     }
 
-    const maxSize = 2 * 1024 * 1024;
+    const maxSize = 20 * 1024 * 1024;
     if (file.size > maxSize) {
-      setError(`File too large. Maximum is 2MB (${(file.size / 1024 / 1024).toFixed(1)}MB selected)`);
+      setError(`File too large. Maximum is 20MB (${(file.size / 1024 / 1024).toFixed(1)}MB selected)`);
       return;
     }
 
     const reader = new FileReader();
     reader.onload = (event) => {
-      const result = event.target?.result as string;
-      setForm(prev => ({ ...prev, image_url: result }));
-      setError('');
+      const dataUrl = event.target?.result as string;
+
+      const img = new Image();
+      img.onload = () => {
+        const MAX_WIDTH = 1200;
+        const scale = Math.min(1, MAX_WIDTH / img.width);
+        const width = Math.round(img.width * scale);
+        const height = Math.round(img.height * scale);
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+
+        const resized = canvas.toDataURL('image/jpeg', 0.8);
+        setForm(prev => ({ ...prev, image_url: resized }));
+        setError('');
+      };
+      img.onerror = () => {
+        setError('Failed to process image. Please try again.');
+      };
+      img.src = dataUrl;
     };
     reader.onerror = () => {
       setError('Failed to read file. Please try again.');
@@ -459,7 +479,7 @@ export default function AdminEvents() {
                   onChange={handleFileSelect}
                   className="w-full text-sm text-stone-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 transition-colors"
                 />
-                <p className="text-xs text-stone-400 mt-1.5">Max 2MB. Accepted: JPEG, PNG, WebP, GIF</p>
+                <p className="text-xs text-stone-400 mt-1.5">Max 20MB. Resized to 1200px wide automatically.</p>
                 {form.image_url && (
                   <div className="mt-3 rounded-xl overflow-hidden border border-stone-200">
                     <img
