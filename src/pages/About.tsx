@@ -55,8 +55,7 @@ export default function About() {
             <img
               src={ericP}
               alt="Eric C. Pinto-Panizales, Founder"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: 'center top' }}
+              className="w-full h-full object-cover object-top"
             />
           </div>
           <div>

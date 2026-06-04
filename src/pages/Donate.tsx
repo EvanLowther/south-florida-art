@@ -125,7 +125,7 @@ export default function Donate() {
         return;
       }
 
-      if (data.url) {
+      if (data.url && typeof data.url === 'string' && data.url.startsWith('https://checkout.stripe.com/')) {
         window.location.href = data.url;
       } else {
         setPaymentError('Payment failed. Please try again.');
