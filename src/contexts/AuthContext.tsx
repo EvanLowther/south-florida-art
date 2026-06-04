@@ -12,7 +12,6 @@ interface AuthContextValue {
   mfaChallenge: (factorId: string) => Promise<string | null>;
   mfaVerify: (factorId: string, challengeId: string, code: string) => Promise<boolean>;
   hasMfaFactors: () => Promise<boolean>;
-  aal: string | null;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -21,15 +20,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-
-  const aal = (() => {
-    if (!session?.access_token) return null;
-    try {
-      return JSON.parse(atob(session.access_token.split('.')[1])).aal || null;
-    } catch {
-      return null;
-    }
-  })();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -85,7 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, signIn, signOut, mfaEnroll, mfaChallenge, mfaVerify, hasMfaFactors, aal }}>
+    <AuthContext.Provider value={{ user, session, loading, signIn, signOut, mfaEnroll, mfaChallenge, mfaVerify, hasMfaFactors }}>
       {children}
     </AuthContext.Provider>
   );
