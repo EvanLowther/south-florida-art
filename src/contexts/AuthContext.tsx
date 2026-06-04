@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import type { User, Session } from '@supabase/supabase-js';
+import type { User, Session, AuthMFAEnrollResponse, AuthMFAListFactorsResponse, AuthMFAChallengeResponse } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 
 interface AuthContextValue {
@@ -8,6 +8,10 @@ interface AuthContextValue {
   loading: boolean;
   signIn: (email: string, password: string) => Promise<string | null>;
   signOut: () => Promise<void>;
+  mfaEnroll: () => Promise<AuthMFAEnrollResponse['data'] | null>;
+  mfaChallenge: (factorId: string) => Promise<string | null>;
+  mfaVerify: (factorId: string, challengeId: string, code: string) => Promise<boolean>;
+  hasMfaFactors: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -41,8 +45,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await supabase.auth.signOut();
   };
 
+  const mfaEnroll = async () => {
+    const { data, error } = await supabase.auth.mfa.enroll({ factorType: 'totp' });
+    if (error) return null;
+    return data;
+  };
+
+  const mfaChallenge = async (factorId: string) => {
+    const { data, error } = await supabase.auth.mfa.challenge({ factorId });
+    if (error) return null;
+    return data.id;
+  };
+
+  const mfaVerify = async (factorId: string, challengeId: string, code: string) => {
+    const { error } = await supabase.auth.mfa.verify({ factorId, challengeId, code });
+    return !error;
+  };
+
+  const hasMfaFactors = async () => {
+    const { data, error } = await supabase.auth.mfa.listFactors();
+    if (error) return false;
+    return data.all.some((f) => f.status === 'verified');
+  };
+
   return (
-    <AuthContext.Provider value={{ user, session, loading, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, signIn, signOut, mfaEnroll, mfaChallenge, mfaVerify, hasMfaFactors }}>
       {children}
     </AuthContext.Provider>
   );

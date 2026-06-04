@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { useIdleTimeout } from '../hooks/useIdleTimeout';
 import {
   Calendar, ChevronDown, DollarSign, LayoutDashboard, LogOut, Mail,
   PackageOpen, ClipboardList, Trash2,
@@ -94,6 +95,7 @@ async function adminFetch(action: string, body: Record<string, unknown> = {}) {
 
 export default function Admin() {
   const { user, signOut } = useAuth();
+  const { showWarning, stay, signOutNow } = useIdleTimeout(signOut);
   const [tab, setTab] = useState<Tab>('dashboard');
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
@@ -489,6 +491,33 @@ export default function Admin() {
       <div className="flex-1 p-8 overflow-y-auto">
         {renderContent()}
       </div>
+
+      {/* Idle timeout warning */}
+      {showWarning && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-8 text-center">
+            <div className="text-4xl mb-4">⏰</div>
+            <h3 className="text-lg font-bold text-stone-900 mb-2">Session Expiring</h3>
+            <p className="text-sm text-stone-500 mb-6">
+              You will be logged out in 30 seconds due to inactivity.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={stay}
+                className="flex-1 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-xl transition-colors text-sm"
+              >
+                Stay Logged In
+              </button>
+              <button
+                onClick={signOutNow}
+                className="flex-1 py-3 border border-stone-200 hover:bg-stone-50 text-stone-700 font-semibold rounded-xl transition-colors text-sm"
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
