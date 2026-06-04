@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS donations (
 ALTER TABLE donations ENABLE ROW LEVEL SECURITY;
 
 -- Allow authenticated admins to read donations
+DROP POLICY IF EXISTS "Allow authenticated read on donations" ON donations;
 CREATE POLICY "Allow authenticated read on donations"
   ON donations FOR SELECT
   TO authenticated
@@ -20,6 +21,7 @@ CREATE POLICY "Allow authenticated read on donations"
 
 -- Allow the stripe-webhook edge function to insert donations
 -- (uses service_role key via Supabase dashboard)
+DROP POLICY IF EXISTS "Allow service_role insert on donations" ON donations;
 CREATE POLICY "Allow service_role insert on donations"
   ON donations FOR INSERT
   TO service_role

@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS rate_limits (
 -- Allow the edge functions to read/write rate_limits (via service_role key)
 ALTER TABLE rate_limits ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Allow service_role all on rate_limits" ON rate_limits;
 CREATE POLICY "Allow service_role all on rate_limits"
   ON rate_limits FOR ALL
   TO service_role

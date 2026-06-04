@@ -21,12 +21,14 @@ ALTER TABLE instrument_inquiries ENABLE ROW LEVEL SECURITY;
 ALTER TABLE newsletter_subscriptions ENABLE ROW LEVEL SECURITY;
 
 -- Allow public to insert instrument inquiries
+DROP POLICY IF EXISTS "Allow public insert on instrument_inquiries" ON instrument_inquiries;
 CREATE POLICY "Allow public insert on instrument_inquiries"
   ON instrument_inquiries FOR INSERT
   TO anon, authenticated
   WITH CHECK (true);
 
 -- Allow public to insert newsletter subscriptions
+DROP POLICY IF EXISTS "Allow public insert on newsletter_subscriptions" ON newsletter_subscriptions;
 CREATE POLICY "Allow public insert on newsletter_subscriptions"
   ON newsletter_subscriptions FOR INSERT
   TO anon, authenticated

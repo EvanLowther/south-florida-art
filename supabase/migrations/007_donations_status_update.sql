@@ -6,6 +6,7 @@ ALTER TABLE donations ALTER COLUMN status SET DEFAULT 'pending';
 
 -- Add update policy for service_role (webhook updates pending → completed)
 DROP POLICY IF EXISTS "Allow service_role insert on donations" ON donations;
+DROP POLICY IF EXISTS "Allow service_role all on donations" ON donations;
 CREATE POLICY "Allow service_role all on donations"
   ON donations FOR ALL
   TO service_role

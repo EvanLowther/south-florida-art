@@ -24,7 +24,7 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
-    const { id, title, date, description, location, image_url } = await req.json()
+    const { id, title, date, description, location, image_url, has_signup_button } = await req.json()
 
     if (!id) {
       return new Response(JSON.stringify({ error: 'Missing event id' }), {
@@ -33,7 +33,7 @@ serve(async (req) => {
       })
     }
 
-    const updates: Record<string, string> = {}
+    const updates: Record<string, string | boolean> = {}
     if (title !== undefined) updates.title = title.trim().slice(0, 255)
     if (date !== undefined) updates.date = date.trim().slice(0, 100)
     if (description !== undefined) updates.description = description.trim().slice(0, 2000)
@@ -56,6 +56,9 @@ serve(async (req) => {
         })
       }
       updates.image_url = trimmedUrl
+    }
+    if (has_signup_button !== undefined) {
+      updates.has_signup_button = has_signup_button
     }
     updates.updated_at = new Date().toISOString()
 

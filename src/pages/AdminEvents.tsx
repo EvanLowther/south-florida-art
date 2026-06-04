@@ -12,6 +12,7 @@ interface Event {
   location: string;
   image_url: string;
   sort_order: number;
+  has_signup_button: boolean;
 }
 
 interface EventForm {
@@ -20,11 +21,12 @@ interface EventForm {
   description: string;
   location: string;
   image_url: string;
+  has_signup_button: boolean;
 }
 
 type ModalMode = 'add' | 'edit' | null;
 
-const emptyForm: EventForm = { title: '', date: '', description: '', location: '', image_url: '' };
+const emptyForm: EventForm = { title: '', date: '', description: '', location: '', image_url: '', has_signup_button: false };
 
 export default function AdminEvents() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -78,6 +80,7 @@ export default function AdminEvents() {
       description: event.description,
       location: event.location,
       image_url: event.image_url,
+      has_signup_button: event.has_signup_button,
     });
     setError('');
     setFileInputKey(k => k + 1);
@@ -311,6 +314,38 @@ export default function AdminEvents() {
     setDeletingId(null);
   };
 
+  const handleToggleSignup = async (event: Event) => {
+    const newValue = !event.has_signup_button;
+    setEvents(prev => prev.map(e => e.id === event.id ? { ...e, has_signup_button: newValue } : e));
+
+    const token = await getAuthToken();
+    if (!token) {
+      loadEvents();
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${SUPABASE_URL}/functions/v1/admin-update-event`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
+          },
+          body: JSON.stringify({ id: event.id, has_signup_button: newValue }),
+        }
+      );
+
+      if (!response.ok) {
+        loadEvents();
+      }
+    } catch {
+      loadEvents();
+    }
+  };
+
   const formValid = form.title && form.date && form.description && form.location && form.image_url;
 
   return (
@@ -376,6 +411,14 @@ export default function AdminEvents() {
                   <ChevronDown size={16} />
                 </button>
               </div>
+
+              <label className="flex items-center gap-2 cursor-pointer text-xs text-stone-500 select-none" title="Enable signup button">
+                <span>Sign Up</span>
+                <div className={`relative w-9 h-5 rounded-full transition-colors ${event.has_signup_button ? 'bg-amber-600' : 'bg-stone-300'}`}>
+                  <div className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${event.has_signup_button ? 'translate-x-4' : ''}`} />
+                  <input type="checkbox" checked={event.has_signup_button} onChange={() => handleToggleSignup(event)} className="sr-only" />
+                </div>
+              </label>
 
               <button
                 onClick={() => openEditModal(event)}
@@ -491,6 +534,18 @@ export default function AdminEvents() {
                 )}
               </div>
             </div>
+
+              {modalMode === 'edit' && (
+                <div className="pt-2">
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <div className={`relative w-10 h-6 rounded-full transition-colors ${form.has_signup_button ? 'bg-amber-600' : 'bg-stone-300'}`}>
+                      <div className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${form.has_signup_button ? 'translate-x-4' : ''}`} />
+                      <input type="checkbox" checked={form.has_signup_button} onChange={() => setForm(prev => ({ ...prev, has_signup_button: !prev.has_signup_button }))} className="sr-only" />
+                    </div>
+                    <span className="text-sm font-medium text-stone-700">Show Sign Up button on public page</span>
+                  </label>
+                </div>
+              )}
 
             <div className="flex items-center justify-end gap-3 p-6 border-t border-stone-100">
               <button
