@@ -14,6 +14,8 @@ import makerfaire from '../assets/images/logos/MakerFaire.png';
 import wynwoodSOM from '../assets/images/logos/WynwoodSOM.png';
 import mmp from '../assets/images/logos/mmp.png';
 import ymu from '../assets/images/logos/ymu.png';
+import mdps from '../assets/images/logos/MDPS.png';
+import adl from '../assets/images/logos/ADLLOGO.png';
 
 interface HomeProps {
   onNavigate: (page: string) => void;
@@ -59,6 +61,8 @@ export default function Home({ onNavigate }: HomeProps) {
     { name: 'Wynwood School of Music', logo: wynwoodSOM },
     { name: 'MMP', logo: mmp },
     { name: 'YMU', logo: ymu },
+    { name: 'Miami Dade Public Schools', logo: mdps },
+    { name: 'Anti-Defamation League', logo: adl },
   ];
 
   return (
@@ -167,7 +171,7 @@ export default function Home({ onNavigate }: HomeProps) {
           <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mt-3 mb-12 text-center">
             Organizations Collaborated With
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 items-center">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 items-center">
             {schools.map((school) => (
               <div key={school.name} className="flex flex-col items-center gap-2 sm:gap-3 p-4 sm:p-6 bg-white rounded-xl border border-stone-100 hover:border-amber-200 transition-all">
                 <div className="w-full h-16 sm:h-20 md:h-24 flex items-center justify-center">
