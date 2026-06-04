@@ -106,7 +106,7 @@ export default function Events() {
         <img
           src={EventsMain}
           alt="Community event"
-          className="absolute inset-0 w-full h-full object-cover object-top opacity-25"
+          className="absolute inset-0 w-full h-full object-cover opacity-25"
         />
         <div className="relative max-w-6xl mx-auto px-6">
           <span className="text-amber-400 text-xs font-semibold uppercase tracking-widest">Events & Programs</span>
