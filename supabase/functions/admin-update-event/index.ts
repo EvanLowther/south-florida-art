@@ -40,8 +40,9 @@ serve(async (req) => {
     if (location !== undefined) updates.location = location.trim().slice(0, 500)
     if (image_url !== undefined) {
       const trimmedUrl = image_url.trim()
-      const validPrefixes = ['data:image/jpeg;base64,', 'data:image/png;base64,', 'data:image/webp;base64,', 'data:image/gif;base64,']
-      if (!validPrefixes.some(prefix => trimmedUrl.startsWith(prefix))) {
+      const validImageRegex = /^data:image\/(jpeg|png|webp|gif);base64,/
+      if (!validImageRegex.test(trimmedUrl)) {
+        console.error('Invalid image format. Received prefix:', trimmedUrl.substring(0, 60))
         return new Response(JSON.stringify({ error: 'Invalid image format. Accepted: JPEG, PNG, WebP, GIF' }), {
           status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
