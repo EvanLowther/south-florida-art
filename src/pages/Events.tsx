@@ -114,7 +114,7 @@ export default function Events() {
             Events & Programs
           </h1>
           <p className="text-stone-300 mt-4 text-lg max-w-xl">
-            Join us in making music education accessible to every student.
+            Explore our events and programs that connect students, empower artists, and strengthen the arts community.
           </p>
         </div>
       </section>
