@@ -24,7 +24,7 @@ const pathToPage = (): Page => {
 const publicPages: Page[] = ['home', 'about', 'events', 'donate'];
 
 const pageTitles: Record<Page, string> = {
-  home: 'South Florida Arts Foundation — Music For Every Student',
+  home: 'South Florida Arts Foundation - Arts Education and Nonprofit Networking',
   about: 'About Us — South Florida Arts Foundation',
   events: 'Events & Programs — South Florida Arts Foundation',
   donate: 'Donate — South Florida Arts Foundation',
