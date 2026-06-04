@@ -158,7 +158,7 @@ export default function Events() {
                         onClick={() => openSignupModal(event.id)}
                         className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors"
                       >
-                        Sign Up
+                        Want to Get Involved
                       </button>
                     </div>
                   )}
@@ -174,7 +174,7 @@ export default function Events() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between p-6 border-b border-stone-100">
-              <h3 className="text-lg font-bold text-stone-900">Sign Up</h3>
+              <h3 className="text-lg font-bold text-stone-900">Want to Get Involved</h3>
               <button
                 onClick={() => setShowModal(false)}
                 className="text-stone-400 hover:text-stone-700 transition-colors"

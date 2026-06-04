@@ -33,7 +33,7 @@ const pageTitles: Record<Page, string> = {
 };
 
 export default function App() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, session, loading: authLoading } = useAuth();
   const [page, setPage] = useState<Page>(pathToPage);
 
   const navigate = (target: string) => {
@@ -59,7 +59,10 @@ export default function App() {
     if (page === 'admin' && !authLoading && !user) {
       navigate('login');
     }
-  }, [page, authLoading, user]);
+    if (page === 'admin' && !authLoading && user && session?.aal !== 'aal2') {
+      navigate('login');
+    }
+  }, [page, authLoading, user, session]);
 
   const isPublic = publicPages.includes(page);
 
