@@ -24,6 +24,7 @@ export default function Events() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [description, setDescription] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [modalError, setModalError] = useState('');
   const [modalSuccess, setModalSuccess] = useState(false);
@@ -48,6 +49,7 @@ export default function Events() {
     setFirstName('');
     setLastName('');
     setEmail('');
+    setDescription('');
     setModalError('');
     setModalSuccess(false);
     setShowModal(true);
@@ -81,6 +83,7 @@ export default function Events() {
             first_name: firstName.trim(),
             last_name: lastName.trim(),
             email: email.trim(),
+            description: description.trim(),
           }),
         }
       );
@@ -257,6 +260,23 @@ export default function Events() {
                     placeholder="your@email.com"
                     className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-500 transition-colors text-sm"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-600 uppercase tracking-wide mb-1.5">
+                    Description / Inquiry
+                  </label>
+                  <textarea
+                    value={description}
+                    onChange={(e) => {
+                      if (e.target.value.length <= 500) setDescription(e.target.value);
+                    }}
+                    placeholder="Tell us a bit about yourself and why you'd like to get involved..."
+                    rows={4}
+                    maxLength={500}
+                    className="w-full px-4 py-3 border border-stone-200 rounded-xl text-stone-900 placeholder-stone-400 focus:outline-none focus:border-amber-500 transition-colors text-sm resize-none"
+                  />
+                  <p className="text-xs text-stone-400 mt-1 text-right">{description.length}/500</p>
                 </div>
 
                 <button
